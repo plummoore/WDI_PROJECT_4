@@ -15,6 +15,7 @@
     "test": "yarn test:server && yarn test:client"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
     "jsonwebtoken": "^8.1.0",
