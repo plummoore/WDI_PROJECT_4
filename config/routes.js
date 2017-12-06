@@ -17,6 +17,8 @@ router.route('/users/:id/journeys')
   .post(journeys.create);
 
 router.route('/users/:id/journeys/:journeyId')
-  .get(journeys.show);
+  .get(journeys.show)
+  .put(journeys.update)
+  .delete(journeys.delete);
 
 module.exports = router;
