@@ -4,6 +4,7 @@ const router = express.Router();
 const users = require('../controllers/users');
 const journeys = require('../controllers/journeys');
 const videos = require('../controllers/videos');
+const auth = require('../controllers/auth');
 
 
 //USERS
@@ -33,5 +34,12 @@ router.route('/users/:id/journeys/:journeyId')
 router.route('/users/:id/journeys/:journeyId/videos/:videoId')
   .put(videos.update)
   .delete(videos.delete);
+
+//AUTH
+router.route('/register')
+  .post(auth.register);
+
+router.route('/login')
+  .post(auth.login);
 
 module.exports = router;
