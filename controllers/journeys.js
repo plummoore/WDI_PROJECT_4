@@ -36,8 +36,10 @@ function journeysUpdate(req, res, next) {
       for (const field in req.body) {
         journey[field] = req.body[field];
       }
-      user.save();
-      return res.status(200).json(journey);
+      return user.save();
+    })
+    .then(user => {
+      return res.status(200).json(user);
     })
     .catch(next);
 }
@@ -52,7 +54,9 @@ function journeysDelete(req, res, next) {
       const journey = user.journeys.id(req.params.journeyId);
       // user.journeys.splice(user.journeys.indexOf(journey), 1)
       journey.remove();
-      user.save();
+      return user.save();
+    })
+    .then(user => {
       return res.status(200).json(user);
     })
     .catch(next);
