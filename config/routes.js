@@ -19,6 +19,9 @@ router.route('/users/:id')
 router.route('/users/:id/journeys')
   .post(journeys.create);
 
+router.route('/users/:id/allvideos')
+  .get(videos.index);
+
 router.route('/users/:id/journeys/:journeyId')
   .get(journeys.show)
   .put(journeys.update)

@@ -1,15 +1,38 @@
 const User = require('../models/user');
 
-// function videosIndex(req, res, next) {
-//   User
-//     .findById(req.params.id)
-//     .exec()
-//     .then(user => {
-//       if (!user) return res.status(404).json({ message: 'User not found.'});
-//       const journeys = user.journeys;
-//       console.log(journeys);
-//     });
-// }
+function videosIndex(req, res, next) {
+  User
+    .findById(req.params.id)
+    .exec()
+    .then(user => {
+      if (!user) return res.status(404).json({ message: 'User not found.'});
+      let videos = [];
+      const journeys = user.journeys;
+
+      for (var i = 0; i < journeys.length; i++) {
+        const journey = journeys[i];
+        const savedVideos = journey.savedVideos;
+        const newSavedVideos = [];
+        for (var j = 0; j < savedVideos.length; j++) {
+          const savedVideo = savedVideos[j];
+          const newSavedVideo = {
+            _id: savedVideo._id,
+            videoId: savedVideo.videoId,
+            archived: savedVideo.archived,
+            name: savedVideo.name,
+            journey: {
+              name: journey.name,
+              id: journey.id
+            }
+          };
+          newSavedVideos.push(newSavedVideo);
+        }
+        videos = videos.concat(newSavedVideos);
+      }
+      return res.status(200).json(videos);
+    })
+    .catch(next);
+}
 
 function videosCreate(req, res, next) {
   User
@@ -66,6 +89,7 @@ function videosDelete(req, res, next) {
 }
 
 module.exports = {
+  index: videosIndex,
   update: videosUpdate,
   delete: videosDelete,
   create: videosCreate
