@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const videoSchema = require('./video');
 
 const journeySchema = new mongoose.Schema({
-  name: {type: String},
+  name: { type: String },
   route: {
     mode: String,
     start: String,
@@ -12,9 +11,13 @@ const journeySchema = new mongoose.Schema({
     durationMins: String,
     durationSecs: Number
   },
-  regular: Boolean,
-  savedVideos: [videoSchema]
+  regular: Boolean
+});
 
+journeySchema.virtual('savedVideos', {
+  ref: 'Video',
+  localField: '_id',
+  foreignField: 'journey'
 });
 
 module.exports = journeySchema;

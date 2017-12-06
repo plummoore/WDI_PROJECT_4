@@ -20,20 +20,19 @@ router.route('/users/:id')
 router.route('/users/:id/journeys')
   .post(journeys.create);
 
-router.route('/users/:id/allvideos')
-  .get(videos.index);
-
 router.route('/users/:id/journeys/:journeyId')
   .get(journeys.show)
   .put(journeys.update)
   .delete(journeys.delete)
   .post(videos.create);
 
-
 //VIDEOS
-router.route('/users/:id/journeys/:journeyId/videos/:videoId')
+router.route('/videos/:videoId')
   .put(videos.update)
   .delete(videos.delete);
+
+router.route('/users/:id/allvideos')
+  .get(videos.index);
 
 //AUTH
 router.route('/register')

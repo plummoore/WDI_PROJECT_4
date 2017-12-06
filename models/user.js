@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
   username: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  journeys: [journeySchema]
+  journeys: [ journeySchema ]
+});
+
+userSchema.virtual('savedVideos', {
+  ref: 'Video',
+  localField: '_id',
+  foreignField: 'createdBy'
 });
 
 userSchema

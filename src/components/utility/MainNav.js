@@ -5,7 +5,8 @@ import { Link, withRouter}from 'react-router-dom';
 const MainNav = () => {
   return(
     <nav>
-      <Link to='/register'>Register</Link>
+      <h1>MAINNAV WORKING</h1>
+      <Link to="/register">Register</Link>
     </nav>
   );
 };

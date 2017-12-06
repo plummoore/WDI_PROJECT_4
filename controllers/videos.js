@@ -1,86 +1,47 @@
-const User = require('../models/user');
+const Video = require('../models/video');
 
-function videosIndex(req, res, next) {
-  User
-    .findById(req.params.id)
-    .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.'});
-      let videos = [];
-      const journeys = user.journeys;
+function videosCreate(req, res, next) {
+  req.body.createdBy = req.params.id;
+  req.body.journey = req.params.journeyId;
 
-      for (var i = 0; i < journeys.length; i++) {
-        const journey = journeys[i];
-        const savedVideos = journey.savedVideos;
-        const newSavedVideos = [];
-        for (var j = 0; j < savedVideos.length; j++) {
-          const savedVideo = savedVideos[j];
-          const newSavedVideo = {
-            _id: savedVideo._id,
-            videoId: savedVideo.videoId,
-            archived: savedVideo.archived,
-            name: savedVideo.name,
-            journey: {
-              name: journey.name,
-              id: journey.id
-            }
-          };
-          newSavedVideos.push(newSavedVideo);
-        }
-        videos = videos.concat(newSavedVideos);
-      }
-      return res.status(200).json(videos);
-    })
+  Video
+    .create(req.body)
+    .then(video => res.status(200).json(video))
     .catch(next);
 }
 
-function videosCreate(req, res, next) {
-  User
-    .findById(req.params.id)
+function videosIndex(req, res, next) {
+  Video
+    .find({createdBy: req.params.id})
     .exec()
-    .then(user => {
-      if(!user) return res.status(404).json({ message: 'User not found.'});
-      const journey = user.journeys.id(req.params.journeyId);
-      journey.savedVideos.push(req.body);
-      return user.save();
-    })
-    .then(user => {
-      return res.status(200).json(user);
-    })
+    .then(videos => res.status(200).json(videos))
     .catch(next);
 }
 
 function videosUpdate(req, res, next) {
-  User
-    .findById(req.params.id)
+  Video
+    .findById(req.params.videoId)
     .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.'});
-      const journey = user.journeys.id(req.params.journeyId);
-      // // console.log(journey);
-      const video = journey.savedVideos.id(req.params.videoId);
-      // console.log(video);
+    .then(video => {
+      if (!video) return res.status(404).json({ message: 'Video not found.'});
       for (const field in req.body) {
         video[field] = req.body[field];
       }
-      return user.save();
+      return video.save();
     })
-    .then(user => {
-      return res.status(200).json(user);
+    .then(video => {
+      return res.status(200).json(video);
     })
     .catch(next);
 }
 
 function videosDelete(req, res, next) {
-  User
-    .findById(req.params.id)
+  Video
+    .findById(req.params.videoId)
     .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.'});
-      const journey = user.journeys.id(req.params.journeyId);
-      const video = journey.savedVideos.id(req.params.videoId);
+    .then(video => {
+      if (!video) return res.status(404).json({ message: 'Video not found.'});
       video.remove();
-      return user.save();
     })
     .then(user => {
       return res.status(200).json(user);
@@ -88,9 +49,10 @@ function videosDelete(req, res, next) {
     .catch(next);
 }
 
+
 module.exports = {
+  create: videosCreate,
   index: videosIndex,
   update: videosUpdate,
-  delete: videosDelete,
-  create: videosCreate
+  delete: videosDelete
 };
