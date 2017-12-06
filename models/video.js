@@ -6,4 +6,4 @@ const videoSchema = new mongoose.Schema({
   videoId: String
 });
 
-module.exports = mongoose.model('Video', videoSchema);
+module.exports = videoSchema;
