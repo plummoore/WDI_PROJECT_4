@@ -11,7 +11,7 @@ function usersIndex(req, res, next) {
 function usersShow(req, res, next) {
   User
     .findById(req.params.id)
-    .populate('savedVideos journeys.savedVideos')
+    .populate('savedVideos journeys.savedVideos journeys')
     .exec()
     .then((user) => {
       if(!user) return res.notFound();

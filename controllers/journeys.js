@@ -1,60 +1,49 @@
-const User = require('../models/user');
+const Journey = require('../models/journey');
 
 function journeysCreate(req, res, next) {
-  User
-    .findById(req.params.id)
-    .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.' });
-      user.journeys.push(req.body);
-      user.save();
-      return res.status(201).json(user);
-    })
+  Journey
+    .create(req.body)
+    .then(journey => res.status(200).json(journey))
     .catch(next);
+
 }
 
 function journeysShow(req, res, next) {
-  User
-    .findById(req.params.id)
+  Journey
+    .findById(req.params.journeyId)
+    .populate('savedVideos journeys.savedVideos journeys')
     .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.' });
-      const journey = user.journeys.id(req.params.journeyId);
-      return res.status(200).json(journey);
+    .then((journey) => {
+      if(!journey) return res.notFound();
+      res.json(journey);
     })
     .catch(next);
 }
 
 function journeysUpdate(req, res, next) {
-
-  User
-    .findById(req.params.id)
+  Journey
+    .findById(req.params.journeyId)
     .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.'});
-      const journey = user.journeys.id(req.params.journeyId);
+    .then(journey => {
+      if (!journey) return res.status(404).json({ message: 'Journey not found.'});
       for (const field in req.body) {
         journey[field] = req.body[field];
       }
-      return user.save();
+      return journey.save();
     })
-    .then(user => {
-      return res.status(200).json(user);
+    .then(journey => {
+      return res.status(200).json(journey);
     })
     .catch(next);
 }
 
 function journeysDelete(req, res, next) {
-
-  User
-    .findById(req.params.id)
+  Journey
+    .findById(req.params.journeyId)
     .exec()
-    .then(user => {
-      if (!user) return res.status(404).json({ message: 'User not found.'});
-      const journey = user.journeys.id(req.params.journeyId);
-      // user.journeys.splice(user.journeys.indexOf(journey), 1)
+    .then((journey) => {
+      if(!journey) return res.status(404).json({ message: 'Journey not found'});
       journey.remove();
-      return user.save();
     })
     .then(user => {
       return res.status(200).json(user);
@@ -62,10 +51,21 @@ function journeysDelete(req, res, next) {
     .catch(next);
 }
 
+// function journeysUserIndex(req, res, next) {
+//   Journey
+//     .find()
+//     .exec()
+//     .then(journeys => {
+//       if(req.journey.createdBy !== req.params.id) return res.status(404).json({ message: 'No journeys found'});
+//       return res.status(200).json(journeys);
+//     })
+//     .catch(next);
+// }
 
 module.exports = {
   create: journeysCreate,
   show: journeysShow,
   update: journeysUpdate,
   delete: journeysDelete
+  // index: journeysUserIndex
 };

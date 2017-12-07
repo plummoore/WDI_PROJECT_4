@@ -7,7 +7,7 @@ const videos = require('../controllers/videos');
 const auth = require('../controllers/auth');
 
 
-//USERS
+// USERS
 router.route('/users')
   .get(users.index);
 
@@ -19,12 +19,14 @@ router.route('/users/:id')
 //JOURNEYS
 router.route('/users/:id/journeys')
   .post(journeys.create);
+// .get(journeys.index);
 
 router.route('/users/:id/journeys/:journeyId')
   .get(journeys.show)
   .put(journeys.update)
   .delete(journeys.delete)
   .post(videos.create);
+
 
 //VIDEOS
 router.route('/videos/:videoId')

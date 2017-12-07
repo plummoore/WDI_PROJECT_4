@@ -11,7 +11,8 @@ const journeySchema = new mongoose.Schema({
     durationMins: String,
     durationSecs: Number
   },
-  regular: Boolean
+  regular: Boolean,
+  createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 
 journeySchema.virtual('savedVideos', {
@@ -20,4 +21,4 @@ journeySchema.virtual('savedVideos', {
   foreignField: 'journey'
 });
 
-module.exports = journeySchema;
+module.exports = mongoose.model('Journey', journeySchema);
