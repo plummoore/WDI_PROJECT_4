@@ -6,6 +6,7 @@ import MainNav from './components/utility/MainNav';
 import Routes from './components/utility/Routes';
 
 import 'bootstrap-css-only';
+import './scss/style.scss';
 
 
 class App extends React.Component {

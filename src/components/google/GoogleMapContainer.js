@@ -1,24 +1,56 @@
+/* global google */
 import React from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-class MapContainer extends React.Component {
+class GoogleMap extends React.Component {
+  state = {
+    start: {
+      lat: '',
+      lng: ''
+    },
+    end: {
+      lat: '',
+      lng: ''
+    },
+    center: {lat: 48.864716, lng: 2.349014}
+  }
+
+
+  componentDidMount() {
+    this.map = new google.maps.Map(this.mapContainer, {
+      zoom: 14,
+      center: this.props.center
+    });
+
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      position: this.props.center
+    });
+
+    this.mapInput = document.getElementById('pac-input');
+
+  }
+
+  componentWillUnmount() {
+    this.marker.setMap(null);
+    this.marker = null;
+    this.map = null;
+  }
 
   render() {
-    const style={
-      width: '100vh',
-      height: '100vh'
-    };
-    if(!this.props.loaded) {
-      return <div>Loading...</div>;
+    if (this.mapInput) {
+      this.mapInput.addListener('places_changed', function() {
+        console.log('ugirjeo');
+        console.log(this.mapInput.getPlaces());
+      });
     }
-    return(
-      <div style={style}>
-        <Map google={this.props.google} />
+
+    return (
+      <div>
+        <div ref={element => this.mapContainer = element} className="google-map"></div>
+        <input id="pac-input" type="text" placeholder="starting point" />
       </div>
     );
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyC9LoktW-gd9soq8XC_xb1mYnsL3SL7-jE'
-})(MapContainer);
+export default GoogleMap;

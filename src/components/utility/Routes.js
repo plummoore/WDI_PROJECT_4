@@ -12,8 +12,8 @@ const Routes = () => {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/users/:id" component={UserJourneysIndex} />
-      <Route exact path="/" component={UserJourneysIndex} />
-      <Route exact path="/journey/:id" component={JourneyShow} />
+      <Route path="/journeys/:id" component={JourneyShow} />
+      {/* <Route exact path="/" component={UserJourneysIndex} /> */}
     </Switch>
   );
 };

@@ -24,6 +24,19 @@ mongoose.connect(dbURI, {useMongoClient: true})
       .create([{
         name: 'Morning commute',
         route: {
+          mode: 'Train',
+          start: 'N18AL',
+          end: 'SW151DP',
+          distanceMiles: '4.5',
+          distanceMetres: 4000,
+          durationMins: '45',
+          durationSecs: 4500
+        },
+        regular: true,
+        createdBy: users[0]
+      }, {
+        name: 'Walking the dog',
+        route: {
           mode: 'Walking',
           start: 'N18AL',
           end: 'SW151DP',
@@ -54,9 +67,21 @@ mongoose.connect(dbURI, {useMongoClient: true})
           }, {
             name: 'VIDEO THREE',
             archived: true,
-            videoId: '_QdPrr8JrYTT',
+            videoId: '_QdPrr8JrHTT',
             createdBy: users[0],
             journey: journeys[0]
+          }, {
+            name: 'VIDEO FOUR',
+            archived: true,
+            videoId: '_QdPrr8HUYTT',
+            createdBy: users[0],
+            journey: journeys[1]
+          }, {
+            name: 'VIDEO FIVE',
+            archived: true,
+            videoId: '_QdPrr8JrYFG',
+            createdBy: users[0],
+            journey: journeys[1]
           }]);
       });
   })
