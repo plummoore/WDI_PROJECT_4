@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 import MainNav from './components/utility/MainNav';
-// import Routes from './components/utility/Routes';
+import Routes from './components/utility/Routes';
 
 import 'bootstrap-css-only';
 
@@ -19,7 +19,7 @@ class App extends React.Component {
             <MainNav />
           </header>
           <main>
-
+            <Routes />
           </main>
         </div>
       </Router>

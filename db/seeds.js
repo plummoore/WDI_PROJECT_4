@@ -13,6 +13,7 @@ mongoose.connect(dbURI, {useMongoClient: true})
     .create([{
       username: 'Minnie',
       email: 'm@m.com',
+      image: 'http://alop.org/wp-content/uploads/2014/12/happy-dog.jpg',
       password: 'password',
       passwordConfirmation: 'password'
     }]))

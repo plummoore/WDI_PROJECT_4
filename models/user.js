@@ -4,12 +4,19 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
   username: {type: String, required: true},
   email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  journeys: [ {type: mongoose.Schema.ObjectId, ref: 'Journey'} ]
+  image: {type: String},
+  password: {type: String, required: true}
+  // journeys: [ {type: mongoose.Schema.ObjectId, ref: 'Journey'} ]
 });
 
 userSchema.virtual('savedVideos', {
   ref: 'Video',
+  localField: '_id',
+  foreignField: 'createdBy'
+});
+
+userSchema.virtual('journeys', {
+  ref: 'Journey',
   localField: '_id',
   foreignField: 'createdBy'
 });

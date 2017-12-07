@@ -26,18 +26,20 @@ class Register extends React.Component {
       .post('/api/register', this.state.user)
       .then(res => {
         Auth.setToken(res.data.token);
-        this.props.history.push('/');
+        this.props.history.push(`/users/${res.data.user.id}`);
       })
       .catch(err => console.log(err));
   }
 
   render() {
     return (
-      <RegisterForm
-        user={this.state.user}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-      />
+      <div>
+        <RegisterForm
+          user={this.state.user}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+        />
+      </div>
     );
   }
 }
