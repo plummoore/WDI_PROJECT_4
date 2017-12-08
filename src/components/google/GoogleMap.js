@@ -4,25 +4,22 @@ import React from 'react';
 import GoogleSearchBar from './GoogleSearchBar';
 
 class GoogleMap extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      start: {},
-      end: {}
-    };
-
+  componentWillMount() {
     this.bounds = new google.maps.LatLngBounds();
     this.handleChange = this.handleChange.bind(this);
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsDisplay = new google.maps.DirectionsRenderer({
+      suppressMarkers: true
+    });
+    this.map;
+    this.mapOptions = {
+      mapTypeId: 'roadmap'
+    };
   }
 
   handleChange(location, inputName) {
     // if this.start && this.end
-      // envoke function to draw route between two markers
-
-
-
-
+    // envoke function to draw route between two markers
 
     if (this[inputName]) {
       this.bounds.extend(location);
@@ -42,30 +39,45 @@ class GoogleMap extends React.Component {
   }
 
   placeMarker(location, name) {
-    if (name === 'start') {
-      this.start = new google.maps.Marker({
-        map: this.map,
-        position: location,
-        animation: google.maps.Animation.DROP
-      });
-    } else {
-      this.end = new google.maps.Marker({
-        map: this.map,
-        position: location,
-        animation: google.maps.Animation.DROP
-      });
-    }
+    this[name] = new google.maps.Marker({
+      map: this.map,
+      position: location,
+      animation: google.maps.Animation.DROP
+    });
+    console.log(`marker func this.${name} ------>`, this[name]);
   }
 
 
-  handleSubmit() {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    // var selectedMode = document.getElementById('travelType').value;
+    var request = {
+      origin: this.start.getPosition(),
+      destination: this.end.getPosition(),
+      travelMode: 'WALKING'
+    };
+    this.directionsService.route(request, (response, status) => {
+      const routeData = response.routes[0].legs.map(leg => {
+        return { distance: leg.distance.value, duration: leg.duration.value };
+      }).reduce((aggregate, leg) => {
+        aggregate.distance += leg.distance;
+        aggregate.duration += leg.duration;
+        return aggregate;
+      }, { distance: 0, duration: 0 });
+
+      console.log(routeData);
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.directionsDisplay.setDirections(response);
+        this.directionsDisplay.setMap(this.map);
+      }
+    });
 
   }
 
   componentDidMount() {
     this.map = new google.maps.Map(this.mapContainer, {
       center: { lat: 51.51, lng: -0.09 },
-      zoom: 14,
+      zoom: 12,
       clickableIcons: false
     });
   }

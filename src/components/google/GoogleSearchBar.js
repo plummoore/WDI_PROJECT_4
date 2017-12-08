@@ -24,6 +24,7 @@ const GoogleSearchBar = ({handleSubmit, handleChange}) => {
           className="form-control"
         />
       </div>
+      <button className="btn-form">Get Route</button>
     </form>
   );
 };
