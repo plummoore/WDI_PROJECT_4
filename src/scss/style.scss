@@ -62,3 +62,21 @@ button.btn-form {
 .pagebanner {
   margin-top: 10px;
 }
+
+input[type=checkbox] {
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    padding: 10px;
+}
+
+li {
+  list-style: none;
+  display: inline;
+  padding: 10px;
+  color: black;
+  align-items: center;
+  &:hover {
+    color: orange;
+  }
+}

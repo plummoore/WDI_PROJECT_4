@@ -1,9 +1,17 @@
 /* global google */
 import React from 'react';
 
+import Axios from 'axios';
+
 import GoogleSearchBar from './GoogleSearchBar';
 
 class GoogleMap extends React.Component {
+  state = {
+    start: '',
+    end: '',
+    regular: ''
+  }
+
   componentWillMount() {
     this.bounds = new google.maps.LatLngBounds();
     this.handleChange = this.handleChange.bind(this);
@@ -50,11 +58,12 @@ class GoogleMap extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e.target);
     // var selectedMode = document.getElementById('travelType').value;
     var request = {
       origin: this.start.getPosition(),
       destination: this.end.getPosition(),
-      travelMode: 'WALKING'
+      travelMode: 'DRIVING'
     };
     this.directionsService.route(request, (response, status) => {
       const routeData = response.routes[0].legs.map(leg => {
@@ -82,6 +91,21 @@ class GoogleMap extends React.Component {
     });
   }
 
+  handleCheck = (e) => {
+    const regular = e.target.checked;
+    // console.log(regular);
+    if(regular) {
+      console.log('SAVE ME', regular);
+      this.setState({ regular: regular });
+      console.log(this.state);
+      // Axios
+      //   .get(`/api/journeys/${this.props.match.params.id}`)
+      //   .then(res => this.setState({ quote: res.data }))
+      //   .catch(err => console.log(err));
+    }
+  }
+
+
   render() {
     return (
       <div>
@@ -89,6 +113,7 @@ class GoogleMap extends React.Component {
         <GoogleSearchBar
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleCheck={this.handleCheck}
         />
       </div>
     );
