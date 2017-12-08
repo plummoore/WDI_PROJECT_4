@@ -10,13 +10,11 @@ import './scss/style.scss';
 
 
 class App extends React.Component {
-
   render() {
     return (
       <Router>
         <div className="container">
           <header>
-            <h1>WDI Project 4: MERN Stack App</h1>
             <MainNav />
           </header>
           <main>

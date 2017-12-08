@@ -6,6 +6,10 @@ const journeySchema = new mongoose.Schema({
     mode: String,
     start: String,
     end: String,
+    startCO: {
+      startlat: Number,
+      startlng: Number
+    },
     distanceMiles: String,
     distanceMetres: Number,
     durationMins: String,

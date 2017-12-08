@@ -24,18 +24,27 @@ class UserJourneysIndex extends React.Component {
   render(){
     return(
       <section id="wrapper">
-        <h1>JOURNEYS USER INDEX WOOOOOO!</h1>
-        <Link to="/journeys">Add Journey</Link>
-        <h1>{this.state.user.username}</h1>
-        <div className="show-img" style = {{backgroundImage: `url(${this.state.user.image})`}}></div>
-        {this.state.journeys.map(journey =>
-          <div key={journey.id}>
-            <Link to={`/journeys/${journey.id}`}>
-              <h1>{journey.name}</h1>
-            </Link>
-            <p>{journey.route.mode}</p>
+        <div className="row pagebanner">
+          <div className="col-sm-6 col-md-4 col-lg-4">
+            <div className="show-img" style = {{backgroundImage: `url(${this.state.user.image})`}}></div>
           </div>
-        )}
+          <div className="col-sm-6 col-md-8 col-lg-8">
+            <h1>{this.state.user.username}</h1>
+            <h1><Link to="/journeys">Add Journey</Link></h1>
+          </div>
+        </div>
+        <div className="row">
+          {this.state.journeys.map(journey =>
+            <div className="col-sm-6 col-md-4 col-lg-4" key={journey.id}>
+              <div className="tile">
+                <Link to={`/journeys/${journey.id}`}>
+                  <h1>{journey.name}</h1>
+                </Link>
+                <p>{journey.route.mode}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </section>
     );
   }

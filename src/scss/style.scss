@@ -1,5 +1,6 @@
 .show-img {
-  height: 300px;
+  height: 175px;
+  width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -9,4 +10,55 @@
 
 .google-map {
   height: 500px;
+}
+
+a.main-btn {
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  margin: 5px;
+  background-color: gold;
+  color: black;
+  border-radius: 3px;
+  a {
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none;
+    background-color: orange;
+    color: white;
+  }
+}
+
+button.btn-form {
+  font-size: 20px;
+  border: 2px solid black;
+  padding: 5px;
+  margin: 5px;
+  background-color: orange;
+  color: black;
+  a {
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none;
+    background-color: gold;
+    color: white;
+  }
+}
+
+.nav-bar {
+  height: 80px;
+  text-align: right;
+  padding: 15px 10px 0 0;
+  background-color: black;
+}
+
+.tile {
+  height: 250px;
+  background-color: black;
+}
+
+.pagebanner {
+  margin-top: 10px;
 }

@@ -21,7 +21,8 @@ router.route('/users/:id/journeys')
   .post(journeys.create);
 // .get(journeys.index);
 
-router.route('/users/:id/journeys/:journeyId')
+// router.route('/users/:id/journeys/:journeyId')
+router.route('/journeys/:journeyId')
   .get(journeys.show)
   .put(journeys.update)
   .delete(journeys.delete)

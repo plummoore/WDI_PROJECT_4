@@ -27,6 +27,10 @@ mongoose.connect(dbURI, {useMongoClient: true})
           mode: 'Train',
           start: 'N18AL',
           end: 'SW151DP',
+          startCO: {
+            startlat: 51.534205,
+            startlng: -0.103093
+          },
           distanceMiles: '4.5',
           distanceMetres: 4000,
           durationMins: '45',
@@ -40,6 +44,27 @@ mongoose.connect(dbURI, {useMongoClient: true})
           mode: 'Walking',
           start: 'N18AL',
           end: 'SW151DP',
+          startCO: {
+            startlat: 51.534205,
+            startlng: -0.103093
+          },
+          distanceMiles: '4.5',
+          distanceMetres: 4000,
+          durationMins: '45',
+          durationSecs: 4500
+        },
+        regular: true,
+        createdBy: users[0]
+      }, {
+        name: 'Visiting Mum',
+        route: {
+          mode: 'Walking',
+          start: 'N18AL',
+          end: 'SA445EG',
+          startCO: {
+            startlat: 51.534205,
+            startlng: -0.103093
+          },
           distanceMiles: '4.5',
           distanceMetres: 4000,
           durationMins: '45',
