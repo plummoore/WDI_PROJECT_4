@@ -63,7 +63,7 @@ class GoogleMap extends React.Component {
     var request = {
       origin: this.start.getPosition(),
       destination: this.end.getPosition(),
-      travelMode: 'DRIVING'
+      travelMode: 'WALKING'
     };
     this.directionsService.route(request, (response, status) => {
       const routeData = response.routes[0].legs.map(leg => {
