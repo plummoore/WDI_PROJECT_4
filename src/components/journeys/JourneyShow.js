@@ -6,7 +6,7 @@ import  Auth from '../../lib/Auth';
 import  BackButton from '../utility/BackButton';
 
 import GoogleMap from '../google/GoogleMap';
-// import Youtube from '../youtube/Youtube';
+import Youtube from '../youtube/Youtube';
 
 class JourneyShow extends React.Component {
   state = {
@@ -23,6 +23,21 @@ class JourneyShow extends React.Component {
       .catch(err => console.log(err));
   }
 
+  handleDelete(){
+    console.log(this);
+
+    // <button onClick={() => this.handleModeChange('TRANSIT')}>
+    //   <i className="fas fa-subway fa-2x"></i>
+    // </button>
+
+    Axios
+      .delete(`/api/journeys/${this.state.journey.id}`, {
+        // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+      })
+      .then(() => this.props.history.push('/'))
+      .catch(err => console.log(err));
+  }
+
   render(){
     return(
       <div>
@@ -33,6 +48,11 @@ class JourneyShow extends React.Component {
           end={this.state.journey.endLocation}
           mode={this.state.journey.mode}
         />
+        <Link to={`/journeys/${this.state.journey.id}/edit`}>
+          <button className="btn-form">Edit journey</button>
+        </Link>
+        <button onClick={() => this.handleDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
+        <Youtube />
       </div>
     );
   }

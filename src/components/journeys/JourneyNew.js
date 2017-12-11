@@ -7,6 +7,7 @@ import  BackButton from '../utility/BackButton';
 
 import GoogleMap from '../google/GoogleMap';
 import GoogleSearchBar from '../google/GoogleSearchBar';
+import Youtube from '../youtube/Youtube';
 
 class JourneyNew extends React.Component {
   state = {
@@ -23,16 +24,7 @@ class JourneyNew extends React.Component {
     this.handleLocationChange = this.handleLocationChange.bind(this);
   }
 
-  componentDidMount(){
-    // Axios
-    //   .post(`/api/journeys/${this.props.match.params.id}`)
-    //   .then(res => {
-    //     console.log('Journey New request');
-    //     // this.setState({ journey: res.data});
-    //     // this.setState({start: res.data.route.startCO});
-    //   })
-    //   .catch(err => console.log(err));
-  }
+  componentDidMount(){}
 
   handleLocationChange = (location, inputName) => {
     this.setState({ [inputName]: location });
@@ -48,21 +40,17 @@ class JourneyNew extends React.Component {
     console.log(this.state);
 
     this.setState({ duration: duration, distance: distance });
-    // console.log(this.state);
   }
 
   handleNameChange = (e) => {
     const journeyData = e.target.value;
-    // return(journeyData);
     if(journeyData)
       this.setState({ regular: true, name: e.target.value });
     console.log(this.state);
   }
 
   handleSave = () => {
-    console.log('hitting save');
     const {userId} = Auth.getPayload();
-    console.log({userId});
     Axios
       .post(`/api/users/${userId}/journeys`, this.state, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
@@ -72,7 +60,6 @@ class JourneyNew extends React.Component {
   }
 
   render(){
-    console.log('render called');
     return(
       <div>
         <h1>ADDING A JOURNEY</h1>
@@ -123,6 +110,7 @@ class JourneyNew extends React.Component {
           />
           <button className="btn-form" onClick={this.handleSave}>Save Journey</button>
         </div>
+        <Youtube />
       </div>
     );
   }

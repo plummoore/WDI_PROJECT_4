@@ -3,9 +3,9 @@ import React from 'react';
 const BackButton = ({ history }) => {
   return(
     <div>
-      <button onClick={console.log('BackButton hitting')}>
+      {/* <button onClick={history.goBack} className="btn-form"> */}
         Back
-      </button>
+      {/* </button> */}
     </div>
   );
 };
