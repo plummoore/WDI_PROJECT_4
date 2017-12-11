@@ -17,24 +17,6 @@ const journeySchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 
-//   name: { type: String },
-//   route: {
-//     mode: String,
-//     start: String,
-//     end: String,
-//     startCO: {
-//       startlat: Number,
-//       startlng: Number
-//     },
-//     distanceMiles: String,
-//     distanceMetres: Number,
-//     durationMins: String,
-//     durationSecs: Number
-//   },
-//   regular: Boolean,
-//   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
-// });
-
 journeySchema.virtual('savedVideos', {
   ref: 'Video',
   localField: '_id',

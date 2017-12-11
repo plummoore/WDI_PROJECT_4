@@ -15,11 +15,11 @@ const Routes = () => {
     <Switch>
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
+      <Route path="/users/:id/journeys/new" component={JourneyNew} />
       <Route path="/users/:id" component={UserJourneysIndex} />
-      <Route path="/journeys/new" component={JourneyNew} />
       <Route path="/journeys/:id" component={JourneyShow} />
-      {!Auth.isAuthenticated() && <Route exact path="/" component={Homepage} />}
       {Auth.isAuthenticated() && <Route exact path="/" component={UserJourneysIndex} />}
+      {!Auth.isAuthenticated() && <Route exact path="/" component={Homepage} />}
     </Switch>
   );
 };

@@ -30,7 +30,7 @@ class UserJourneysIndex extends React.Component {
           </div>
           <div className="col-sm-6 col-md-8 col-lg-8">
             <h1>{this.state.user.username}</h1>
-            <h1><Link to="/journeys">Add Journey</Link></h1>
+            <h1><Link to={`/users/${this.state.user.id}/journeys/new`}>Add Journey</Link></h1>
           </div>
         </div>
         <div className="row">
@@ -40,7 +40,7 @@ class UserJourneysIndex extends React.Component {
                 <Link to={`/journeys/${journey.id}`}>
                   <h1>{journey.name}</h1>
                 </Link>
-                <p>{journey.route.mode}</p>
+                <p>{journey.mode}</p>
               </div>
             </div>
           )}

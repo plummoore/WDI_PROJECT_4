@@ -3,14 +3,19 @@ import React from 'react';
 
 class GoogleMap extends React.Component {
   directionsService = new google.maps.DirectionsService();
-  directionsDisplay = new google.maps.DirectionsRenderer({vsuppressMarkers: true });
+  directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
   bounds            = new google.maps.LatLngBounds();
+  routeHasBeenDrawn = false;
 
   componentWillUpdate(nextProps) {
     if(Object.keys(nextProps.start).length !== 0) this.placeMarker(nextProps.start, this.start);
     if(Object.keys(nextProps.end).length !== 0) this.placeMarker(nextProps.end, this.end);
+    if(nextProps.mode !== this.props.mode) this.routeHasBeenDrawn = false;
+  }
 
-    if(Object.keys(nextProps.start).length !== 0 && Object.keys(nextProps.end).length !== 0 && nextProps.mode) this.drawRoute(nextProps.mode);
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
+    if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) this.drawRoute(this.props.mode);
   }
 
   componentDidMount() {
@@ -31,11 +36,14 @@ class GoogleMap extends React.Component {
   }
 
   drawRoute(mode) {
+    console.log('drawRoute');
     const request = {
       origin: this.props.start,
       destination: this.props.end,
       travelMode: mode
     };
+
+    this.routeHasBeenDrawn = true;
 
     this.directionsService.route(request, (response, status) => {
       const routeData = response.routes[0].legs.map(leg => {
@@ -50,10 +58,11 @@ class GoogleMap extends React.Component {
       const distance = (Math.round((routeData.distance /1000)*100)/100);
 
       if (status === google.maps.DirectionsStatus.OK) {
+        console.log('STATUS', status);
         this.directionsDisplay.setDirections(response);
         this.directionsDisplay.setMap(this.map);
         this.directionsDisplay.setOptions( { suppressMarkers: true } );
-        this.props.handleRouteData(duration, distance);
+        if(this.props.handleRouteData) this.props.handleRouteData(duration, distance);
       }
     });
 

@@ -1,11 +1,12 @@
 const Journey = require('../models/journey');
 
 function journeysCreate(req, res, next) {
+  req.body.createdBy = req.params.id;
+
   Journey
     .create(req.body)
     .then(journey => res.status(200).json(journey))
     .catch(next);
-
 }
 
 function journeysShow(req, res, next) {

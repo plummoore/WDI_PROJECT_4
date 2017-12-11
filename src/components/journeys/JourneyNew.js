@@ -10,6 +10,7 @@ import GoogleSearchBar from '../google/GoogleSearchBar';
 
 class JourneyNew extends React.Component {
   state = {
+    name: '',
     start: {},
     end: {},
     mode: '',
@@ -42,30 +43,36 @@ class JourneyNew extends React.Component {
   }
 
   handleRouteData = (duration, distance) => {
+    console.log('handleRouteData');
     console.log(duration, distance);
+    console.log(this.state);
 
-    // this.setState({ duration: duration });
-    // this.setState({ distance: distance });
+    this.setState({ duration: duration, distance: distance });
+    // console.log(this.state);
   }
 
-  // handleNameChange = (e) => {
-  //   const journeyData = e.target.value;
-  //   if(journeyData) {
-  //     this.setState({ regular: true, name: e.target.value });
-  //     console.log(this.state.regular, this.state.name);
-  //   }
-  // }
+  handleNameChange = (e) => {
+    const journeyData = e.target.value;
+    // return(journeyData);
+    if(journeyData)
+      this.setState({ regular: true, name: e.target.value });
+    console.log(this.state);
+  }
 
-  // handleSave = () => {
-  //   console.log('hitting save');
-  //   // Axios
-  //   //   .post('/api/journeys', this.state, {
-  //   //   })
-  //   //   .then(() => this.props.history.push('/'))
-  //   //   .catch(err => this.setState({ errors: err.response.data.errors }));
-  // }
+  handleSave = () => {
+    console.log('hitting save');
+    const {userId} = Auth.getPayload();
+    console.log({userId});
+    Axios
+      .post(`/api/users/${userId}/journeys`, this.state, {
+        // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+      })
+      .then(() => this.props.history.push('/'))
+      .catch(err => this.setState({ errors: err.response.data.errors }));
+  }
 
   render(){
+    console.log('render called');
     return(
       <div>
         <h1>ADDING A JOURNEY</h1>
@@ -94,6 +101,27 @@ class JourneyNew extends React.Component {
               <i className="fas fa-child fa-2x"></i>
             </button>
           </div>
+        </div>
+        <div className="row">
+          {this.state.duration && <h3>{this.state.duration} mins</h3>}
+          {this.state.distance && <h3>{this.state.distance} km</h3>}
+        </div>
+        <div className="row">
+          <h3>Regular Journey?</h3>
+          <input
+            name="regular"
+            id="regular"
+            type="checkbox"
+            value="true"
+          />
+          <input
+            name="journeyName"
+            id="journeyName"
+            type="text"
+            placeholder="Journey Name"
+            onChange={this.handleNameChange}
+          />
+          <button className="btn-form" onClick={this.handleSave}>Save Journey</button>
         </div>
       </div>
     );

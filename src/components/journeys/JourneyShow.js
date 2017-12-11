@@ -10,11 +10,7 @@ import GoogleMap from '../google/GoogleMap';
 
 class JourneyShow extends React.Component {
   state = {
-    journey: {},
-    start: {
-      startlat: '',
-      startlng: ''
-    }
+    journey: {}
   }
 
   componentDidMount(){
@@ -22,25 +18,21 @@ class JourneyShow extends React.Component {
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
         this.setState({ journey: res.data});
-        this.setState({start: res.data.route.startCO});
-        // console.log(res.data);
-        // console.log(res.data.route.startCO);
-        // console.log(this.state.start.startlat);
-        // console.log(this.state.start.startlng);
+        console.log(this.state.journey);
       })
       .catch(err => console.log(err));
   }
 
   render(){
-    // const startPoint = {lat: this.state.start.startlat, lng: this.state.start.startlng};
-    // console.log(startPoint);
-    // const center = {lat: 51.534205, lng: -0.103093};
     return(
       <div>
         {this.state && <BackButton />}
         <h1>{this.state.journey.name}</h1>
-        { <GoogleMap  />}
-        {/* <Youtube /> */}
+        <GoogleMap
+          start={this.state.journey.startLocation}
+          end={this.state.journey.endLocation}
+          mode={this.state.journey.mode}
+        />
       </div>
     );
   }

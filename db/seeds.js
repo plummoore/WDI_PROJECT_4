@@ -23,29 +23,47 @@ mongoose.connect(dbURI, {useMongoClient: true})
     return Journey
       .create([{
         name: 'Morning commute',
-        start: {type: String},
-        end: {type: String},
-        mode: 'Walking',
-        distance: 3.26,
-        duration: 44,
+        startLocation: {
+          lat: 51.51,
+          lng: -0.09
+        },
+        endLocation: {
+          lat: 51.515,
+          lng: -0.0587
+        },
+        mode: 'TRANSIT',
+        distance: 4.5,
+        duration: 45,
         regular: true,
         createdBy: users[0]
       }, {
         name: 'Walking the dog',
-        start: {type: String},
-        end: {type: String},
-        mode: 'Walking',
-        distance: 3.26,
-        duration: 44,
+        startLocation: {
+          lat: 51.51,
+          lng: -0.09
+        },
+        endLocation: {
+          lat: 51.4333,
+          lng: -0.3
+        },
+        mode: 'WALKING',
+        distance: 4.5,
+        duration: 45,
         regular: true,
         createdBy: users[0]
       }, {
         name: 'Visiting Mum',
-        start: {type: String},
-        end: {type: String},
-        mode: 'Walking',
-        distance: 3.26,
-        duration: 44,
+        startLocation: {
+          lat: 51.51,
+          lng: -0.09
+        },
+        endLocation: {
+          lat: 51.45,
+          lng: -0.2167
+        },
+        mode: 'DRIVING',
+        distance: 4.5,
+        duration: 45,
         regular: true,
         createdBy: users[0]
       }])
