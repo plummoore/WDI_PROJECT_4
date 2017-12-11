@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import Axios from 'axios';
+
+import  Auth from '../../lib/Auth';
 
 class Youtube extends React.Component {
   state = {
     videos: [],
-    savedVideos: []
+    savedVideos: {
+      videoId: '',
+      archived: ''
+    }
   }
 
 
   componentDidMount() {
-    axios
+    Axios
       .get('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCAuUUnT6oDeKwE6v1NGQxug&maxResults=8&order=viewCount&q=all&type=video&videoDuration=medium&videoEmbeddable=true&fields=items%2CpageInfo%2CprevPageToken%2CregionCode&key=AIzaSyAb3g7hxT7yujlkyViY5Knkk6aTTpRGRhQ')
       .then(res => {
         // console.log(res.data.items);
@@ -21,14 +26,20 @@ class Youtube extends React.Component {
   }
 
   handleSave = (e) => {
+    console.log(e);
+    const {userId} = Auth.getPayload();
     console.log('this.state BEFORE', this.state);
     const addedVideos = this.state.savedVideos.slice();
     addedVideos.push(e);
     this.setState({ savedVideos: addedVideos });
     console.log('this.state AFTER',this.state);
-    // this.setstate({ savedVideos: e});
-    // console.log(this.state.savedVideos);
 
+    Axios
+      .post(`/api/users/${userId}/journeys`, this.state.savedVideos, {
+        // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+      })
+      .then(() => this.props.history.push('/'))
+      .catch(err => console.log(err));
   }
 
   render() {

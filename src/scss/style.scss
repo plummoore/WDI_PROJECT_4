@@ -1,3 +1,4 @@
+//USER JOURNEY INDEX
 .show-img {
   height: 175px;
   width: 100%;
@@ -8,14 +9,35 @@
   position: relative;
 }
 
-.google-map {
-  height: 500px;
+.tile {
+  height: 250px;
+  background-color: black;
 }
 
+.pagebanner {
+  margin-top: 10px;
+}
+
+
+//GOOGLE MAP
+.google-map {
+  height: 400px;
+}
+
+//FORMS
 input {
   width: 100%;
 }
 
+// input[type=checkbox] {
+//     transform: scale(2);
+//     -ms-transform: scale(2);
+//     -webkit-transform: scale(2);
+//     padding: 10px;
+// }
+
+
+//BUTTONS
 a.main-btn {
   font-size: 20px;
   border: 2px solid black;
@@ -35,7 +57,7 @@ a.main-btn {
 }
 
 button.btn-form {
-  font-size: 20px;
+  font-size: 14px;
   border: 2px solid black;
   padding: 5px;
   margin: 5px;
@@ -49,8 +71,13 @@ button.btn-form {
     background-color: gold;
     color: white;
   }
+  &.save-journey {
+    margin-top: 15px;
+    margin-left: 0;
+  }
 }
 
+//NAVBAR
 .nav-bar {
   height: 80px;
   text-align: right;
@@ -58,32 +85,40 @@ button.btn-form {
   background-color: black;
 }
 
-.tile {
-  height: 250px;
-  background-color: black;
-}
 
-.pagebanner {
-  margin-top: 10px;
-}
 
-input[type=checkbox] {
-    transform: scale(2);
-    -ms-transform: scale(2);
-    -webkit-transform: scale(2);
-    padding: 10px;
-}
 
-li {
-  list-style: none;
-  display: inline;
-  padding: 10px;
+//GOOGLE MAP FORMS
+.travel-mode {
+  margin: 5px 5px;
+  font-size: 10px;
+  padding: 5px;
+  width: 45px;
+  background-color: white;
+  border: 2px solid black;
   color: black;
   align-items: center;
   &:hover {
     color: orange;
   }
 }
+
+h4 {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 14px;
+  display: inline;
+}
+
+.form-bottom {
+  margin-bottom: -10px;
+}
+
+
+
+//HOMEPAGE
 
 iframe {
   border: none;

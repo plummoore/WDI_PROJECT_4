@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const videoSchema = new mongoose.Schema({
-  name: String,
+  // name: String,
   archived: Boolean,
   videoId: String,
   journey: { type: mongoose.Schema.ObjectId, ref: 'Journey' },

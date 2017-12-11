@@ -17,7 +17,8 @@ class JourneyNew extends React.Component {
     mode: '',
     distance: '',
     duration: '',
-    regular: ''
+    regular: '',
+    videosVisible: false
   }
 
   componentWillMount() {
@@ -45,7 +46,7 @@ class JourneyNew extends React.Component {
   handleNameChange = (e) => {
     const journeyData = e.target.value;
     if(journeyData)
-      this.setState({ regular: true, name: e.target.value });
+      this.setState({ regular: true, name: e.target.value,  videosVisible: true });
     console.log(this.state);
   }
 
@@ -62,7 +63,6 @@ class JourneyNew extends React.Component {
   render(){
     return(
       <div>
-        <h1>ADDING A JOURNEY</h1>
         <GoogleMap
           start={this.state.start}
           end={this.state.end}
@@ -73,44 +73,51 @@ class JourneyNew extends React.Component {
           handleLocationChange={this.handleLocationChange}
         />
         <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12">
-            <h3>Mode of travel</h3>
-            <button onClick={() => this.handleModeChange('TRANSIT')}>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>Mode of travel</h4>
+            <button className="travel-mode" onClick={() => this.handleModeChange('TRANSIT')}>
               <i className="fas fa-subway fa-2x"></i>
             </button>
-            <button onClick={() => this.handleModeChange('DRIVING')}>
+            <button className="travel-mode" onClick={() => this.handleModeChange('DRIVING')}>
               <i className="fas fa-car fa-2x"></i>
             </button>
-            <button onClick={() => this.handleModeChange('BICYCLING')}>
+            <button className="travel-mode" onClick={() => this.handleModeChange('BICYCLING')}>
               <i className="fas fa-bicycle fa-2x"></i>
             </button>
-            <button onClick={() => this.handleModeChange('WALKING')}>
+            <button className="travel-mode" onClick={() => this.handleModeChange('WALKING')}>
               <i className="fas fa-child fa-2x"></i>
             </button>
           </div>
         </div>
         <div className="row">
-          {this.state.duration && <h3>{this.state.duration} mins</h3>}
-          {this.state.distance && <h3>{this.state.distance} km</h3>}
+          <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
+            <h3>Duration: {this.state.duration} mins</h3>
+            {/* {this.state.duration && <h3>Duration: {this.state.duration} mins</h3>}
+            {this.state.distance &&<h3>Distance: {this.state.distance} km</h3>} */}
+          </div>
+
+          <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
+            <h3>Distance: {this.state.distance} km</h3>
+          </div>
         </div>
         <div className="row">
-          <h3>Regular Journey?</h3>
-          <input
-            name="regular"
-            id="regular"
-            type="checkbox"
-            value="true"
-          />
-          <input
-            name="journeyName"
-            id="journeyName"
-            type="text"
-            placeholder="Journey Name"
-            onChange={this.handleNameChange}
-          />
-          <button className="btn-form" onClick={this.handleSave}>Save Journey</button>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>Journey name</h4>
+            <input
+              name="journeyName"
+              id="journeyName"
+              type="text"
+              placeholder="Enter name"
+              onChange={this.handleNameChange}
+            />
+            <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey</button>
+          </div>
         </div>
-        <Youtube />
+        {
+          this.state.videosVisible
+            ? <Youtube />
+            : null
+        }
       </div>
     );
   }
