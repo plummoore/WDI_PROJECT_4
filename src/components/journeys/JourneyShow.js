@@ -6,6 +6,7 @@ import  Auth from '../../lib/Auth';
 import  BackButton from '../utility/BackButton';
 
 import GoogleMap from '../google/GoogleMap';
+// import Youtube from '../youtube/Youtube';
 
 class JourneyShow extends React.Component {
   state = {
@@ -39,6 +40,7 @@ class JourneyShow extends React.Component {
         {this.state && <BackButton />}
         <h1>{this.state.journey.name}</h1>
         { <GoogleMap  />}
+        {/* <Youtube /> */}
       </div>
     );
   }

@@ -8,6 +8,7 @@ import Login from '../auth/Login';
 import UserJourneysIndex from '../journeys/UserJourneysIndex';
 import JourneyShow from '../journeys/JourneyShow';
 import Homepage from '../Home';
+import JourneyNew from '../journeys/JourneyNew';
 
 const Routes = () => {
   return(
@@ -15,6 +16,7 @@ const Routes = () => {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/users/:id" component={UserJourneysIndex} />
+      <Route path="/journeys/new" component={JourneyNew} />
       <Route path="/journeys/:id" component={JourneyShow} />
       {!Auth.isAuthenticated() && <Route exact path="/" component={Homepage} />}
       {Auth.isAuthenticated() && <Route exact path="/" component={UserJourneysIndex} />}

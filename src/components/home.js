@@ -4,9 +4,9 @@ import Giphy from './giphy/GiphyHome';
 
 function homepage(){
   return(
-    <div className="container">
+    <div className="container home">
       <div className="row">
-        <div className="col-md-12 col-lg-12">
+        <div className="col-md-4 col-lg-4">
           <h1>{'It\'s not about the destination'}</h1>
           <h1>{'It\'s about the journey'}</h1>
           <Giphy />

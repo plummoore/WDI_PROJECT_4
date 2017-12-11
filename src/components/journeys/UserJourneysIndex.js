@@ -25,7 +25,7 @@ class UserJourneysIndex extends React.Component {
     return(
       <section id="wrapper">
         <div className="row pagebanner">
-          <div className="col-sm-6 col-md-4 col-lg-4">
+          <div className="col-sm-6 col-md-6 col-lg-6">
             <div className="show-img" style = {{backgroundImage: `url(${this.state.user.image})`}}></div>
           </div>
           <div className="col-sm-6 col-md-8 col-lg-8">

@@ -25,7 +25,7 @@ class Giphy extends React.Component {
         <div className="row">
           {this.state.gif.map(giphy =>{
             return(
-              <div key={giphy.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+              <div key={giphy.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-4 responsive-object">
                 <iframe src={giphy.embed_url}></iframe>
               </div>
             );

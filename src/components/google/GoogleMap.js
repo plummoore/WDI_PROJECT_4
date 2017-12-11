@@ -1,70 +1,42 @@
 /* global google */
 import React from 'react';
 
-import Axios from 'axios';
-
-import GoogleSearchBar from './GoogleSearchBar';
-
 class GoogleMap extends React.Component {
-  state = {
-    start: '',
-    end: '',
-    regular: ''
+  directionsService = new google.maps.DirectionsService();
+  directionsDisplay = new google.maps.DirectionsRenderer({vsuppressMarkers: true });
+  bounds            = new google.maps.LatLngBounds();
+
+  componentWillUpdate(nextProps) {
+    if(Object.keys(nextProps.start).length !== 0) this.placeMarker(nextProps.start, this.start);
+    if(Object.keys(nextProps.end).length !== 0) this.placeMarker(nextProps.end, this.end);
+
+    if(Object.keys(nextProps.start).length !== 0 && Object.keys(nextProps.end).length !== 0 && nextProps.mode) this.drawRoute(nextProps.mode);
   }
 
-  componentWillMount() {
-    this.bounds = new google.maps.LatLngBounds();
-    this.handleChange = this.handleChange.bind(this);
-    this.directionsService = new google.maps.DirectionsService();
-    this.directionsDisplay = new google.maps.DirectionsRenderer({
-      suppressMarkers: true
+  componentDidMount() {
+    this.map = new google.maps.Map(this.mapContainer, {
+      center: { lat: 51.51, lng: -0.09 },
+      zoom: 12,
+      clickableIcons: false
     });
-    this.map;
-    this.mapOptions = {
-      mapTypeId: 'roadmap'
-    };
+
+    this.start = new google.maps.Marker({ map: this.map });
+    this.end   = new google.maps.Marker({ map: this.map });
   }
 
-  handleChange(location, inputName) {
-    // if this.start && this.end
-    // envoke function to draw route between two markers
-
-    if (this[inputName]) {
-      this.bounds.extend(location);
-      this[inputName].setPosition(location);
-      return this.map.fitBounds(this.bounds);
-    }
-
-    this.setState({ [inputName]: location });
+  placeMarker(location, marker) {
     this.bounds.extend(location);
-
-    inputName === 'start' ?
-      this.placeMarker(this.state.start, inputName)
-      :
-      this.placeMarker(this.state.end, inputName);
-
+    marker.setPosition(location);
     this.map.fitBounds(this.bounds);
   }
 
-  placeMarker(location, name) {
-    this[name] = new google.maps.Marker({
-      map: this.map,
-      position: location,
-      animation: google.maps.Animation.DROP
-    });
-    console.log(`marker func this.${name} ------>`, this[name]);
-  }
-
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target);
-    // var selectedMode = document.getElementById('travelType').value;
-    var request = {
-      origin: this.start.getPosition(),
-      destination: this.end.getPosition(),
-      travelMode: 'WALKING'
+  drawRoute(mode) {
+    const request = {
+      origin: this.props.start,
+      destination: this.props.end,
+      travelMode: mode
     };
+
     this.directionsService.route(request, (response, status) => {
       const routeData = response.routes[0].legs.map(leg => {
         return { distance: leg.distance.value, duration: leg.duration.value };
@@ -74,50 +46,81 @@ class GoogleMap extends React.Component {
         return aggregate;
       }, { distance: 0, duration: 0 });
 
-      console.log(routeData);
+      const duration = (Math.round(routeData.duration/60));
+      const distance = (Math.round((routeData.distance /1000)*100)/100);
+
       if (status === google.maps.DirectionsStatus.OK) {
         this.directionsDisplay.setDirections(response);
         this.directionsDisplay.setMap(this.map);
+        this.directionsDisplay.setOptions( { suppressMarkers: true } );
+        this.props.handleRouteData(duration, distance);
       }
     });
 
-  }
 
-  componentDidMount() {
-    this.map = new google.maps.Map(this.mapContainer, {
-      center: { lat: 51.51, lng: -0.09 },
-      zoom: 12,
-      clickableIcons: false
-    });
   }
-
-  handleCheck = (e) => {
-    const regular = e.target.checked;
-    // console.log(regular);
-    if(regular) {
-      console.log('SAVE ME', regular);
-      this.setState({ regular: regular });
-      console.log(this.state);
-      // Axios
-      //   .get(`/api/journeys/${this.props.match.params.id}`)
-      //   .then(res => this.setState({ quote: res.data }))
-      //   .catch(err => console.log(err));
-    }
-  }
-
 
   render() {
     return (
       <div>
         <div ref={element => this.mapContainer = element} className="google-map"></div>
-        <GoogleSearchBar
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          handleCheck={this.handleCheck}
-        />
       </div>
     );
   }
 }
 
 export default GoogleMap;
+
+// handleSubmit = (e) => {
+//   e.preventDefault();
+//   // console.log(e.target);
+//   // var selectedMode = document.getElementById('travelType').value;
+//   // console.log('START POINT', this.start);
+//   // var request = {
+//   //   origin: this.start.getPosition(),
+//   //   destination: this.end.getPosition(),
+//   //   travelMode: 'WALKING'
+//   // };
+//
+//   const startPositions = {
+//     lat: this.start.getPosition().lat(),
+//     lng: this.start.getPosition().lng()
+//   };
+//
+//   const endPositions = {
+//     lat: this.end.getPosition().lat(),
+//     lng: this.end.getPosition().lng()
+//   };
+//
+//   console.log('start marker position:', startPositions);
+//   console.log('end marker position:', endPositions);
+//
+// }
+
+// var selectedMode = document.getElementById('travelType').value;
+// console.log('START POINT', this.start);
+// var request = {
+//   origin: this.start.getPosition(),
+//   destination: this.end.getPosition(),
+//   travelMode: 'WALKING'
+// };
+
+// this.directionsService.route(request, (response, status) => {
+//   const routeData = response.routes[0].legs.map(leg => {
+//     return { distance: leg.distance.value, duration: leg.duration.value };
+//   }).reduce((aggregate, leg) => {
+//     aggregate.distance += leg.distance;
+//     aggregate.duration += leg.duration;
+//     return aggregate;
+//   }, { distance: 0, duration: 0 });
+//
+//
+//   const duration = (Math.round(routeData.duration/60));
+//   const distance = (Math.round((routeData.distance /1000)*100)/100);
+//   this.setState({ distance: distance, duration: duration });
+//   // console.log(this.state.distance, this.state.duration);
+//   if (status === google.maps.DirectionsStatus.OK) {
+//     this.directionsDisplay.setDirections(response);
+//     this.directionsDisplay.setMap(this.map);
+//   }
+// });
