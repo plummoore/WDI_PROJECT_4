@@ -14,7 +14,6 @@ class GoogleMap extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) this.drawRoute(this.props.mode);
   }
 
@@ -36,7 +35,6 @@ class GoogleMap extends React.Component {
   }
 
   drawRoute(mode) {
-    console.log('drawRoute');
     const request = {
       origin: this.props.start,
       destination: this.props.end,
@@ -65,8 +63,6 @@ class GoogleMap extends React.Component {
         if(this.props.handleRouteData) this.props.handleRouteData(duration, distance);
       }
     });
-
-
   }
 
   render() {
@@ -79,57 +75,3 @@ class GoogleMap extends React.Component {
 }
 
 export default GoogleMap;
-
-// handleSubmit = (e) => {
-//   e.preventDefault();
-//   // console.log(e.target);
-//   // var selectedMode = document.getElementById('travelType').value;
-//   // console.log('START POINT', this.start);
-//   // var request = {
-//   //   origin: this.start.getPosition(),
-//   //   destination: this.end.getPosition(),
-//   //   travelMode: 'WALKING'
-//   // };
-//
-//   const startPositions = {
-//     lat: this.start.getPosition().lat(),
-//     lng: this.start.getPosition().lng()
-//   };
-//
-//   const endPositions = {
-//     lat: this.end.getPosition().lat(),
-//     lng: this.end.getPosition().lng()
-//   };
-//
-//   console.log('start marker position:', startPositions);
-//   console.log('end marker position:', endPositions);
-//
-// }
-
-// var selectedMode = document.getElementById('travelType').value;
-// console.log('START POINT', this.start);
-// var request = {
-//   origin: this.start.getPosition(),
-//   destination: this.end.getPosition(),
-//   travelMode: 'WALKING'
-// };
-
-// this.directionsService.route(request, (response, status) => {
-//   const routeData = response.routes[0].legs.map(leg => {
-//     return { distance: leg.distance.value, duration: leg.duration.value };
-//   }).reduce((aggregate, leg) => {
-//     aggregate.distance += leg.distance;
-//     aggregate.duration += leg.duration;
-//     return aggregate;
-//   }, { distance: 0, duration: 0 });
-//
-//
-//   const duration = (Math.round(routeData.duration/60));
-//   const distance = (Math.round((routeData.distance /1000)*100)/100);
-//   this.setState({ distance: distance, duration: duration });
-//   // console.log(this.state.distance, this.state.duration);
-//   if (status === google.maps.DirectionsStatus.OK) {
-//     this.directionsDisplay.setDirections(response);
-//     this.directionsDisplay.setMap(this.map);
-//   }
-// });

@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const journeySchema = new mongoose.Schema({
   name: {type: String},
-  startLocation: {
+  start: {
     lat: Number,
     lng: Number
   },
-  endLocation: {
+  end: {
     lat: Number,
     lng: Number
   },

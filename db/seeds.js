@@ -23,11 +23,11 @@ mongoose.connect(dbURI, {useMongoClient: true})
     return Journey
       .create([{
         name: 'Morning commute',
-        startLocation: {
+        start: {
           lat: 51.51,
           lng: -0.09
         },
-        endLocation: {
+        end: {
           lat: 51.515,
           lng: -0.0587
         },
@@ -38,11 +38,11 @@ mongoose.connect(dbURI, {useMongoClient: true})
         createdBy: users[0]
       }, {
         name: 'Walking the dog',
-        startLocation: {
+        start: {
           lat: 51.51,
           lng: -0.09
         },
-        endLocation: {
+        end: {
           lat: 51.4333,
           lng: -0.3
         },
@@ -53,11 +53,11 @@ mongoose.connect(dbURI, {useMongoClient: true})
         createdBy: users[0]
       }, {
         name: 'Visiting Mum',
-        startLocation: {
+        start: {
           lat: 51.51,
           lng: -0.09
         },
-        endLocation: {
+        end: {
           lat: 51.45,
           lng: -0.2167
         },

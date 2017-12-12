@@ -36,10 +36,6 @@ class JourneyNew extends React.Component {
   }
 
   handleRouteData = (duration, distance) => {
-    console.log('handleRouteData');
-    console.log(duration, distance);
-    console.log(this.state);
-
     this.setState({ duration: duration, distance: distance });
   }
 
@@ -47,10 +43,10 @@ class JourneyNew extends React.Component {
     const journeyData = e.target.value;
     if(journeyData)
       this.setState({ regular: true, name: e.target.value,  videosVisible: true });
-    console.log(this.state);
   }
 
   handleSave = () => {
+    console.log('ON SAVE', this.state);
     const {userId} = Auth.getPayload();
     Axios
       .post(`/api/users/${userId}/journeys`, this.state, {
@@ -92,10 +88,7 @@ class JourneyNew extends React.Component {
         <div className="row">
           <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
             <h3>Duration: {this.state.duration} mins</h3>
-            {/* {this.state.duration && <h3>Duration: {this.state.duration} mins</h3>}
-            {this.state.distance &&<h3>Distance: {this.state.distance} km</h3>} */}
           </div>
-
           <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
             <h3>Distance: {this.state.distance} km</h3>
           </div>
@@ -113,11 +106,11 @@ class JourneyNew extends React.Component {
             <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey</button>
           </div>
         </div>
-        {
+        {/* {
           this.state.videosVisible
             ? <Youtube />
             : null
-        }
+        } */}
       </div>
     );
   }

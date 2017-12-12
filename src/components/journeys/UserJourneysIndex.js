@@ -15,7 +15,6 @@ class UserJourneysIndex extends React.Component {
     Axios
       .get(`/api/users/${user.userId}`)
       .then(res => {
-        console.log(res.data);
         this.setState({ user: res.data, journeys: res.data.journeys });
       })
       .catch(err => console.log(err));

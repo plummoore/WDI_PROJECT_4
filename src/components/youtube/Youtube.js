@@ -7,10 +7,7 @@ import  Auth from '../../lib/Auth';
 class Youtube extends React.Component {
   state = {
     videos: [],
-    savedVideos: {
-      videoId: '',
-      archived: ''
-    }
+    savedVideos: []
   }
 
 
@@ -25,13 +22,11 @@ class Youtube extends React.Component {
       .catch(err => this.setState({ error: err.message}));
   }
 
-  handleSave = (e) => {
-    console.log(e);
+  handleSave = (videoId) => {
     const {userId} = Auth.getPayload();
     console.log('this.state BEFORE', this.state);
-    const addedVideos = this.state.savedVideos.slice();
-    addedVideos.push(e);
-    this.setState({ savedVideos: addedVideos });
+    const savedVideos = this.state.savedVideos.concat({ videoId, archived: false });
+    this.setState({ savedVideos });
     console.log('this.state AFTER',this.state);
 
     Axios
