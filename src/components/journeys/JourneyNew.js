@@ -81,7 +81,7 @@ class JourneyNew extends React.Component {
         />
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4>Mode of travel</h4>
+            <h4>Mode of travel:</h4>
             <button className="travel-mode" onClick={() => this.handleModeChange('TRANSIT')}>
               <i className="fas fa-subway fa-2x"></i>
             </button>
@@ -106,7 +106,7 @@ class JourneyNew extends React.Component {
         </div>
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4>Journey name</h4>
+            <h4>Journey Name:</h4>
             <input
               name="journeyName"
               id="journeyName"

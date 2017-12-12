@@ -85,10 +85,10 @@ class JourneyShow extends React.Component {
             {/* <h4>Videos: {`${savedVideos}`.length} </h4> */}
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button className="icons" onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
             <Link to={`/journeys/${this.state.journey.id}/edit`}>
-              <button><i className="fas fa-edit"></i></button>
+              <button className="icons"><i className="fas fa-edit"></i></button>
             </Link>
-            <button onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
           </div>
         </div>
         <div>
@@ -104,8 +104,8 @@ class JourneyShow extends React.Component {
                     frameBorder="0"
                     allowFullScreen>
                   </iframe>
-                  <button><i className="fas fa-caret-square-up"></i></button>
-                  <button onClick={() => this.handleVideoDelete(video)}><i className="fas fa-trash-alt"></i></button>
+                  <button className="icons"onClick={() => this.handleVideoDelete(video)}><i className="far fa-trash-alt"></i></button>
+                  <button className="icons"><i className="fas fa-caret-square-up"></i></button>
                 </div>
               );
             })
