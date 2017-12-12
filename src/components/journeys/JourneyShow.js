@@ -12,20 +12,23 @@ class JourneyShow extends React.Component {
   state = {
     journey: {},
     savedVideos: [],
-    videosVisible: false
+    videosVisible: false,
+    videoSearchTerm: ''
   }
 
   componentDidMount(){
+    console.log('componentDidMount mounting');
     Axios
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
+        // console.log(res.data);
         this.setState({ journey: res.data, savedVideos: res.data.savedVideos});
-        console.log('SHOWPAGE STATE', this.state.journey, this.state.savedVideos);
+        // console.log('SHOWPAGE STATE', this.state.journey, this.state.savedVideos);
       })
       .catch(err => console.log(err));
   }
 
-  handleDelete(){
+  handleJourneyDelete(){
     Axios
       .delete(`/api/journeys/${this.state.journey.id}`, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
@@ -34,15 +37,36 @@ class JourneyShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
+  handleVideoDelete(video){
+    console.log(video);
+
+    Axios
+      .delete(`/api/videos/${video.id}`)
+      .then((res) => console.log(res))
+      .catch(err => this.setState({ errors: err.response.data.errors }));
+  }
+
   handleVideosVisible = () => {
     this.setState({ videosVisible: true });
   }
 
+  handleAddVideos = (savedVideos) => {
+    this.setState({ savedVideos });
+  }
+
+  handleVideoSearchTerms = (e) => {
+    e.preventDefault();
+    this.setState({videoSearchTerm: e.target.value});
+    console.log(this.state.videoSearchTerm);
+    this.handleVideosVisible();
+    console.log(this.state.videosVisible);
+  }
+
   render(){
-    console.log('STATE JOURNEY ID------>',this.state.journey.id);
+    // console.log('STATE JOURNEY ID------>',this.state.journey.id);
     return(
       <div>
-        {this.state && <BackButton />}
+        <BackButton />
         <h1>{this.state.journey.name}</h1>
 
         <GoogleMap
@@ -64,7 +88,7 @@ class JourneyShow extends React.Component {
             <Link to={`/journeys/${this.state.journey.id}/edit`}>
               <button><i className="fas fa-edit"></i></button>
             </Link>
-            <button onClick={() => this.handleDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
+            <button onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
           </div>
         </div>
         <div>
@@ -72,7 +96,7 @@ class JourneyShow extends React.Component {
           <div className="row">
             {this.state.savedVideos.map((video) => {
               return (
-                <div key={video.id} className="col-lg-6 col-md-6 col-sm-6">
+                <div key={video.videoId} className="col-lg-6 col-md-6 col-sm-6">
                   <iframe
                     width="100%"
                     height="315"
@@ -80,6 +104,8 @@ class JourneyShow extends React.Component {
                     frameBorder="0"
                     allowFullScreen>
                   </iframe>
+                  <button><i className="fas fa-caret-square-up"></i></button>
+                  <button onClick={() => this.handleVideoDelete(video)}><i className="fas fa-trash-alt"></i></button>
                 </div>
               );
             })
@@ -87,11 +113,23 @@ class JourneyShow extends React.Component {
           </div>
         </div>
         <div className="row">
-          <button className="btn-form" onClick={this.handleVideosVisible}>Choose more videos</button>
+          {/* <button className="btn-form" onClick={this.handleVideosVisible}>Choose more videos</button> */}
+          <form >
+            <input
+              name="YoutubeSearch"
+              id="YoutubeSearch"
+              type="text"
+              placeholder="search for videos..."
+              onChange={this.handleVideoSearchTerms}
+            />
+          </form>
           {
             this.state.videosVisible
               ? <Youtube
                 journeyId={this.state.journey.id}
+                savedVideos={this.state.savedVideos}
+                handleAddVideos={this.handleAddVideos}
+                videoSearchTerm={this.state.videoSearchTerm}
               />
               : null
           }

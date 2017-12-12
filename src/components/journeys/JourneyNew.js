@@ -58,9 +58,11 @@ class JourneyNew extends React.Component {
       .post(`/api/users/${userId}/journeys`, this.state, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
-      .then(() => {
+      .then(res => {
+        console.log(res.data.id);
         console.log('JOURNEY ID', this.state.id);
-        this.setState({videosVisible: true});
+        this.props.history.push(`/journeys/${res.data.id}`);
+        // this.setState({videosVisible: true, journey: });
       })
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }

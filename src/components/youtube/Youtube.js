@@ -1,41 +1,57 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Axios from 'axios';
 
-import  Auth from '../../lib/Auth';
+import Auth from '../../lib/Auth';
 
 class Youtube extends React.Component {
   state = {
     videos: [],
-    savedVideos: []
+    savedVideos: this.props.savedVideos,
+    videoSearchTerm: this.props.videoSearchTerm,
+    numberOfResults: 8,
+    numberOfRecalls: 0
   }
 
-
-  componentDidMount() {
+  getSearches = () => {
     Axios
-      .get('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCAuUUnT6oDeKwE6v1NGQxug&maxResults=8&order=viewCount&q=all&type=video&videoDuration=medium&videoEmbeddable=true&fields=items%2CpageInfo%2CprevPageToken%2CregionCode&key=AIzaSyAb3g7hxT7yujlkyViY5Knkk6aTTpRGRhQ')
+      .get(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCAuUUnT6oDeKwE6v1NGQxug&maxResults=${this.state.numberOfResults}&order=viewCount&q=${this.state.videoSearchTerm}&type=video&videoDuration=medium&videoEmbeddable=true&fields=items%2CpageInfo%2CprevPageToken%2CregionCode&key=AIzaSyAb3g7hxT7yujlkyViY5Knkk6aTTpRGRhQ`)
       .then(res => {
-        // console.log(res.data.items);
-        this.setState({videos: res.data.items});
-        // console.log(this.state.videos);
+        console.log(this.state.savedVideos);
+        console.log('SEARCH TERM', this.state.videoSearchTerm);
+        const savedVideosIds = this.state.savedVideos.map(video => video.videoId);
+        const unduplicateVideos = res.data.items.filter(item => !savedVideosIds.includes(item.id.videoId));
+        // if unduplicateVideos are less than 4 && numberOfRecalls < 1,
+        // set state.numberOfResults to be this.state.numberOfResults * 2, &&
+        // set state.numberOfRecalls to be this.state.numberOfResults + 1
+        // then recall this.getSearches() (in callback AFTER setting state) ==>
+        // this.setState({videos: unduplicateVideos}, () => {
+        //    this.getSearches();
+        // });
+        // else, just set state like below
+        this.setState({videos: unduplicateVideos});
       })
       .catch(err => this.setState({ error: err.message}));
   }
 
+  componentDidMount() {
+    console.log('youtube getting mounted');
+    this.getSearches();
+  }
+
   handleSave = (videoId) => {
-    const {userId} = Auth.getPayload();
-    console.log('this.state BEFORE', this.state);
-    const savedVideos = this.state.savedVideos.concat({ videoId, archived: false });
-    this.setState({ savedVideos });
-    console.log('this.state AFTER',this.state);
+    // console.log('this.state BEFORE', this.state);
+    const singleVideo = { videoId, archived: false, journey: this.props.journeyId };
+    const savedVideos = this.state.savedVideos.concat({ videoId, archived: false, journey: this.props.journeyId });
+    // this.setState({ savedVideos });
+
 
     Axios
-      .post(`/api/users/${userId}/journeys/`, this.state.savedVideos, {
+      .post(`/api/journeys/${this.props.journeyId}`, singleVideo, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
       .then(() => {
-        console.log('YOUTUBE VIDEO ADD', this.state);
-        this.props.history.push('/');
+        this.props.handleAddVideos(savedVideos);
+        // console.log(res.data);
       })
       .catch(err => console.log(err));
   }
@@ -56,9 +72,11 @@ class Youtube extends React.Component {
                   frameBorder="0"
                   allowFullScreen>
                 </iframe>
-                <button onClick={() => this.handleSave(video.id.videoId)}><i className="fas fa-plus"></i></button>
-                {/* <p>{video.snippet.title}</p>
-                <p>{video.snippet.description}</p> */}
+                <button onClick={() =>
+                  this.handleSave(video.id.videoId)
+                }>
+                  <i className="fas fa-plus"></i>
+                </button>
               </div>
             );
           })
