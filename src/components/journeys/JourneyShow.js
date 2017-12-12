@@ -68,23 +68,28 @@ class JourneyShow extends React.Component {
       <div>
         <BackButton />
         <h1>{this.state.journey.name}</h1>
-
-        <GoogleMap
-          start={this.state.journey.start}
-          end={this.state.journey.end}
-          mode={this.state.journey.mode}
-        />
         <div className="row">
-          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <h4>Travel Mode: {this.state.journey.mode}</h4>
-            <h4>Duration: {this.state.journey.duration} mins</h4>
-            <h4>Distance: {this.state.journey.distance} km</h4>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <GoogleMap
+              start={this.state.journey.start}
+              end={this.state.journey.end}
+              mode={this.state.journey.mode}
+            />
           </div>
-          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <h4>Saved Videos: {this.state.savedVideos.length} </h4>
+        </div>
+        <div className="row">
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h4><strong>Mode:</strong> {this.state.journey.mode}</h4>
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h4><strong>Duration:</strong> {this.state.journey.duration} mins</h4>
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h4><strong>Distance:</strong> {this.state.journey.distance} km</h4>
+            {/* <h4>Saved Videos: {this.state.savedVideos.length} </h4> */}
             {/* <h4>Videos: {`${savedVideos}`.length} </h4> */}
           </div>
-          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <button className="icons" onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
             <Link to={`/journeys/${this.state.journey.id}/edit`}>
               <button className="icons"><i className="fas fa-edit"></i></button>

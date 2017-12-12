@@ -35,6 +35,7 @@ mongoose.connect(dbURI, {useMongoClient: true})
         distance: 4.5,
         duration: 45,
         regular: true,
+        image: 'https://mymodernmet.com/wp/wp-content/uploads/archive/J-WwyVe7B6zjhdFJ00MR_1082106464.jpeg',
         createdBy: users[0]
       }, {
         name: 'Walking the dog',
@@ -50,6 +51,7 @@ mongoose.connect(dbURI, {useMongoClient: true})
         distance: 4.5,
         duration: 45,
         regular: true,
+        image: 'http://www.healthysolutionsofsv.com/wp-content/uploads/Screen-Shot-2015-10-31-at-11.52.45-AM-298x300.png',
         createdBy: users[0]
       }, {
         name: 'Visiting Mum',
@@ -65,6 +67,7 @@ mongoose.connect(dbURI, {useMongoClient: true})
         distance: 4.5,
         duration: 45,
         regular: true,
+        image: 'https://hdwallsource.com/img/2014/4/cookies-and-tea-mood-wallpaper-43591-44651-hd-wallpapers.jpg',
         createdBy: users[0]
       }])
       .then(journeys => {

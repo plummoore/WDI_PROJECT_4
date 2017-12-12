@@ -68,13 +68,17 @@ class JourneyEdit extends React.Component {
     return(
       <div>
         {this.state && <BackButton />}
-        <h1>{this.state.journey.name}</h1>
+        <div className="row">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h1>{this.state.journey.name}</h1>
 
-        <GoogleMap
-          start={this.state.journey.start}
-          end={this.state.journey.end}
-          mode={this.state.journey.mode}
-        />
+            <GoogleMap
+              start={this.state.journey.start}
+              end={this.state.journey.end}
+              mode={this.state.journey.mode}
+            />
+          </div>
+        </div>
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h3>Name:

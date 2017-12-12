@@ -14,6 +14,7 @@ const journeySchema = new mongoose.Schema({
   distance: Number,
   duration: Number,
   regular: Boolean,
+  image: String,
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 

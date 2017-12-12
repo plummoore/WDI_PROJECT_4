@@ -70,15 +70,19 @@ class JourneyNew extends React.Component {
   render(){
     return(
       <div>
-        <GoogleMap
-          start={this.state.start}
-          end={this.state.end}
-          mode={this.state.mode}
-          handleRouteData={this.handleRouteData}
-        />
-        <GoogleSearchBar
-          handleLocationChange={this.handleLocationChange}
-        />
+        <div className="row">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <GoogleMap
+              start={this.state.start}
+              end={this.state.end}
+              mode={this.state.mode}
+              handleRouteData={this.handleRouteData}
+            />
+            <GoogleSearchBar
+              handleLocationChange={this.handleLocationChange}
+            />
+          </div>
+        </div>
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4>Mode of travel:</h4>
@@ -97,10 +101,10 @@ class JourneyNew extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
+          <div className="journey-data col-lg-2 col-md-2 col-sm-4 col-xs-4">
             <h3>Duration: {this.state.duration} mins</h3>
           </div>
-          <div className="journey-data col-lg-4 col-md-4 col-sm-5 col-xs-5">
+          <div className="journey-data col-lg-2 col-md-2 col-sm-4 col-xs-4">
             <h3>Distance: {this.state.distance} km</h3>
           </div>
         </div>

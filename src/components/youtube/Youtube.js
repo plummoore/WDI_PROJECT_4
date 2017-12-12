@@ -72,7 +72,7 @@ class Youtube extends React.Component {
                   frameBorder="0"
                   allowFullScreen>
                 </iframe>
-                <button onClick={() =>
+                <button className="icons" onClick={() =>
                   this.handleSave(video.id.videoId)
                 }>
                   <i className="fas fa-plus"></i>
