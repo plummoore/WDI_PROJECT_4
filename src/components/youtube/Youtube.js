@@ -30,10 +30,13 @@ class Youtube extends React.Component {
     console.log('this.state AFTER',this.state);
 
     Axios
-      .post(`/api/users/${userId}/journeys`, this.state.savedVideos, {
+      .post(`/api/users/${userId}/journeys/`, this.state.savedVideos, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
-      .then(() => this.props.history.push('/'))
+      .then(() => {
+        console.log('YOUTUBE VIDEO ADD', this.state);
+        this.props.history.push('/');
+      })
       .catch(err => console.log(err));
   }
 

@@ -18,7 +18,8 @@ class JourneyNew extends React.Component {
     distance: '',
     duration: '',
     regular: '',
-    videosVisible: false
+    videosVisible: false,
+    savedVideos: []
   }
 
   componentWillMount() {
@@ -42,17 +43,25 @@ class JourneyNew extends React.Component {
   handleNameChange = (e) => {
     const journeyData = e.target.value;
     if(journeyData)
-      this.setState({ regular: true, name: e.target.value,  videosVisible: true });
+      this.setState({ regular: true, name: e.target.value });
   }
+
+  // handleVideosVisible = () => {
+  //   this.setState({ videosVisible: true });
+  // }
 
   handleSave = () => {
     console.log('ON SAVE', this.state);
+    // console.log('ON SAVE PAYLOAD', Auth.getPayload());
     const {userId} = Auth.getPayload();
     Axios
       .post(`/api/users/${userId}/journeys`, this.state, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
-      .then(() => this.props.history.push('/'))
+      .then(() => {
+        console.log('JOURNEY ID', this.state.id);
+        this.setState({videosVisible: true});
+      })
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
@@ -103,14 +112,15 @@ class JourneyNew extends React.Component {
               placeholder="Enter name"
               onChange={this.handleNameChange}
             />
-            <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey</button>
+            <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey & See Videos</button>
           </div>
+          {/* <button className="btn-form save-journey" onClick={this.handleVideosVisible}>See Videos</button> */}
         </div>
-        {/* {
+        {
           this.state.videosVisible
             ? <Youtube />
             : null
-        } */}
+        }
       </div>
     );
   }

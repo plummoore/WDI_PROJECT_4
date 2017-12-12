@@ -72,33 +72,33 @@ mongoose.connect(dbURI, {useMongoClient: true})
 
         return Video
           .create([{
-            name: 'VIDEO ONE',
+            // name: 'VIDEO ONE',
             archived: false,
-            videoId: '_QdPW8JrYzQ',
+            videoId: 'uq83lU6nuS8',
             createdBy: users[0],
             journey: journeys[0]
           }, {
-            name: 'VIDEO TWO',
+            // name: 'VIDEO TWO',
             archived: true,
-            videoId: '_QdPW8JrYTT',
+            videoId: 'F2hc2FLOdhI',
             createdBy: users[0],
             journey: journeys[0]
           }, {
-            name: 'VIDEO THREE',
+            // name: 'VIDEO THREE',
             archived: true,
-            videoId: '_QdPrr8JrHTT',
+            videoId: 'N6wjC0sxD2o',
             createdBy: users[0],
             journey: journeys[0]
           }, {
-            name: 'VIDEO FOUR',
+            // name: 'VIDEO FOUR',
             archived: true,
-            videoId: '_QdPrr8HUYTT',
+            videoId: 'N6wjC0sxD2o',
             createdBy: users[0],
             journey: journeys[1]
           }, {
-            name: 'VIDEO FIVE',
+            // name: 'VIDEO FIVE',
             archived: true,
-            videoId: '_QdPrr8JrYFG',
+            videoId: 'F2hc2FLOdhI',
             createdBy: users[0],
             journey: journeys[1]
           }]);

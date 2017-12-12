@@ -10,24 +10,22 @@ import Youtube from '../youtube/Youtube';
 
 class JourneyShow extends React.Component {
   state = {
-    journey: {}
+    journey: {},
+    savedVideos: [],
+    videosVisible: false
   }
 
   componentDidMount(){
     Axios
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
-        this.setState({ journey: res.data});
-        console.log(this.state.journey)
+        this.setState({ journey: res.data, savedVideos: res.data.savedVideos});
+        console.log('SHOWPAGE STATE', this.state.journey, this.state.savedVideos);
       })
       .catch(err => console.log(err));
   }
 
   handleDelete(){
-    // <button onClick={() => this.handleModeChange('TRANSIT')}>
-    //   <i className="fas fa-subway fa-2x"></i>
-    // </button>
-
     Axios
       .delete(`/api/journeys/${this.state.journey.id}`, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
@@ -36,9 +34,12 @@ class JourneyShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
+  handleVideosVisible = () => {
+    this.setState({ videosVisible: true });
+  }
+
   render(){
     console.log('STATE JOURNEY ID------>',this.state.journey.id);
-    const savedVideos = this.state.journey.savedVideos;
     return(
       <div>
         {this.state && <BackButton />}
@@ -56,7 +57,8 @@ class JourneyShow extends React.Component {
             <h4>Distance: {this.state.journey.distance} km</h4>
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <h4>Videos: {`${savedVideos}`.length} </h4>
+            <h4>Saved Videos: {this.state.savedVideos.length} </h4>
+            {/* <h4>Videos: {`${savedVideos}`.length} </h4> */}
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <Link to={`/journeys/${this.state.journey.id}/edit`}>
@@ -65,12 +67,35 @@ class JourneyShow extends React.Component {
             <button onClick={() => this.handleDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
           </div>
         </div>
-
-
-
-
-        {/* <Youtube /> */}
-
+        <div>
+          <h2>Saved Videos</h2>
+          <div className="row">
+            {this.state.savedVideos.map((video) => {
+              return (
+                <div key={video.id} className="col-lg-6 col-md-6 col-sm-6">
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${video.videoId}`}
+                    frameBorder="0"
+                    allowFullScreen>
+                  </iframe>
+                </div>
+              );
+            })
+            }
+          </div>
+        </div>
+        <div className="row">
+          <button className="btn-form" onClick={this.handleVideosVisible}>Choose more videos</button>
+          {
+            this.state.videosVisible
+              ? <Youtube
+                journeyId={this.state.journey.id}
+              />
+              : null
+          }
+        </div>
       </div>
     );
   }
