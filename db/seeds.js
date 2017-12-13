@@ -13,7 +13,7 @@ mongoose.connect(dbURI, {useMongoClient: true})
     .create([{
       username: 'Minnie',
       email: 'm@m.com',
-      image: 'http://alop.org/wp-content/uploads/2014/12/happy-dog.jpg',
+      image: 'http://www.serialowa.pl/wpr/wp-content/uploads/2015/07/miss-piggy456.jpg',
       password: 'password',
       passwordConfirmation: 'password'
     }]))
@@ -82,25 +82,25 @@ mongoose.connect(dbURI, {useMongoClient: true})
             journey: journeys[0]
           }, {
             // name: 'VIDEO TWO',
-            archived: true,
+            archived: false,
             videoId: 'F2hc2FLOdhI',
             createdBy: users[0],
             journey: journeys[0]
           }, {
             // name: 'VIDEO THREE',
-            archived: true,
+            archived: false,
             videoId: 'N6wjC0sxD2o',
             createdBy: users[0],
             journey: journeys[0]
           }, {
             // name: 'VIDEO FOUR',
-            archived: true,
+            archived: false,
             videoId: 'N6wjC0sxD2o',
             createdBy: users[0],
             journey: journeys[1]
           }, {
             // name: 'VIDEO FIVE',
-            archived: true,
+            archived: false,
             videoId: 'F2hc2FLOdhI',
             createdBy: users[0],
             journey: journeys[1]

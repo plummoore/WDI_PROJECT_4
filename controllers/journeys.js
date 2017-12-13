@@ -16,7 +16,8 @@ function journeysShow(req, res, next) {
     .exec()
     .then((journey) => {
       if(!journey) return res.notFound();
-      res.json(journey);
+      const savedVideos = journey.savedVideos.filter(savedVideo => !savedVideo.archived);
+      res.json({journey, savedVideos});
     })
     .catch(next);
 }

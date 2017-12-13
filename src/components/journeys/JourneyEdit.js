@@ -42,6 +42,7 @@ class JourneyEdit extends React.Component {
   // end={this.state.journey.end}
   // mode={this.state.journey.mode}
 
+
   handleRouteData = (duration, distance) => {
     this.setState({ duration: duration, distance: distance });
   }
@@ -50,7 +51,13 @@ class JourneyEdit extends React.Component {
     const journeyData = e.target.value;
     if(journeyData)
       this.setState({ regular: true, name: e.target.value,  videosVisible: true });
-    console.log('HANDLE NAME CHANGE--->', this.state);
+    // console.log('HANDLE NAME CHANGE--->', this.state);
+  }
+
+  handleImageChange = (e) => {
+    const journeyData = e.target.value;
+    if(journeyData)
+      this.setState({ image: e.target.value });
   }
 
   handleSave = () => {
@@ -81,13 +88,21 @@ class JourneyEdit extends React.Component {
         </div>
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h3>Name:
+            <h3>Journey Name:
               <input
                 name="journeyName"
                 id="journeyName"
                 type="text"
                 placeholder={this.state.journey.name}
                 onChange={this.handleNameChange}
+              /></h3>
+            <h3>Journey Image:
+              <input
+                name="journeyImage"
+                id="journeyImage"
+                type="text"
+                placeholder={`${this.state.journey.name} image`}
+                onChange={this.handleImageChange}
               /></h3>
           </div>
         </div>

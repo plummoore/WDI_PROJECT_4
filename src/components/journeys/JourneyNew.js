@@ -43,7 +43,13 @@ class JourneyNew extends React.Component {
   handleNameChange = (e) => {
     const journeyData = e.target.value;
     if(journeyData)
-      this.setState({ regular: true, name: e.target.value });
+      this.setState({ regular: true, name: e.target.value, image: e.target.value });
+  }
+
+  handleImageChange = (e) => {
+    const journeyData = e.target.value;
+    if(journeyData)
+      this.setState({ image: e.target.value });
   }
 
   // handleVideosVisible = () => {
@@ -118,9 +124,16 @@ class JourneyNew extends React.Component {
               placeholder="Enter name"
               onChange={this.handleNameChange}
             />
+            <h4>Journey Image:</h4>
+            <input
+              name="journeyImage"
+              id="journeyImage"
+              type="text"
+              placeholder="Choose image"
+              onChange={this.handleImageChange}
+            />
             <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey & See Videos</button>
           </div>
-          {/* <button className="btn-form save-journey" onClick={this.handleVideosVisible}>See Videos</button> */}
         </div>
         {
           this.state.videosVisible

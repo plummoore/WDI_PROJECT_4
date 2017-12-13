@@ -13,19 +13,24 @@ class JourneyShow extends React.Component {
     journey: {},
     savedVideos: [],
     videosVisible: false,
+    loading: false,
     videoSearchTerm: ''
   }
 
-  componentDidMount(){
-    console.log('componentDidMount mounting');
+
+  fetchData() {
     Axios
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
-        // console.log(res.data);
-        this.setState({ journey: res.data, savedVideos: res.data.savedVideos});
+        this.setState({ journey: res.data.journey, savedVideos: res.data.savedVideos});
         // console.log('SHOWPAGE STATE', this.state.journey, this.state.savedVideos);
       })
       .catch(err => console.log(err));
+  }
+
+  componentDidMount(){
+
+    this.fetchData();
   }
 
   handleJourneyDelete(){
@@ -37,29 +42,50 @@ class JourneyShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
-  handleVideoDelete(video){
-    console.log(video);
-
+  handleVideoDelete = (video) => {
     Axios
       .delete(`/api/videos/${video.id}`)
-      .then((res) => console.log(res))
+      .then(() => this.fetchData())
+      .catch(err => this.setState({ errors: err.response.data.errors }));
+  }
+
+  handleVideoArchive = (video) => {
+    console.log(video);
+    Axios
+      .put(`/api/videos/${video.id}`, {archived: true})
+      .then(() => {
+        // this.setState({ archived: true });
+        this.fetchData();
+      })
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
   handleVideosVisible = () => {
-    this.setState({ videosVisible: true });
+    if (this.state.videosVisible) {
+      this.setState({ videosVisible: false, loading: true }, () => {
+        setTimeout(() => {
+          this.setState({ videosVisible: true, loading: false });
+        }, 50);
+      });
+
+    } else {
+      this.setState({ videosVisible: true });
+    }
   }
 
   handleAddVideos = (savedVideos) => {
     this.setState({ savedVideos });
   }
 
+  handleVideoSearchChange = ({ target: { value }}) => {
+    this.setState({ videoSearchTerm: value });
+  }
+
   handleVideoSearchTerms = (e) => {
     e.preventDefault();
-    this.setState({videoSearchTerm: e.target.value});
-    console.log(this.state.videoSearchTerm);
+    // console.log(this.state.videoSearchTerm);
     this.handleVideosVisible();
-    console.log(this.state.videosVisible);
+    // console.log(this.state.videosVisible);
   }
 
   render(){
@@ -78,7 +104,7 @@ class JourneyShow extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-2">
             <h4><strong>Mode:</strong> {this.state.journey.mode}</h4>
           </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -89,7 +115,7 @@ class JourneyShow extends React.Component {
             {/* <h4>Saved Videos: {this.state.savedVideos.length} </h4> */}
             {/* <h4>Videos: {`${savedVideos}`.length} </h4> */}
           </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4">
             <button className="icons" onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
             <Link to={`/journeys/${this.state.journey.id}/edit`}>
               <button className="icons"><i className="fas fa-edit"></i></button>
@@ -101,7 +127,7 @@ class JourneyShow extends React.Component {
           <div className="row">
             {this.state.savedVideos.map((video) => {
               return (
-                <div key={video.videoId} className="col-lg-6 col-md-6 col-sm-6">
+                <div key={video.videoId} className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   <iframe
                     width="100%"
                     height="315"
@@ -109,8 +135,8 @@ class JourneyShow extends React.Component {
                     frameBorder="0"
                     allowFullScreen>
                   </iframe>
-                  <button className="icons"onClick={() => this.handleVideoDelete(video)}><i className="far fa-trash-alt"></i></button>
-                  <button className="icons"><i className="fas fa-caret-square-up"></i></button>
+                  <button className="icons" onClick={() => this.handleVideoDelete(video)}><i className="far fa-trash-alt"></i></button>
+                  <button className="icons" onClick={() => this.handleVideoArchive(video)}><i className="fas fa-caret-square-up"></i></button>
                 </div>
               );
             })
@@ -118,26 +144,38 @@ class JourneyShow extends React.Component {
           </div>
         </div>
         <div className="row">
-          {/* <button className="btn-form" onClick={this.handleVideosVisible}>Choose more videos</button> */}
-          <form >
-            <input
-              name="YoutubeSearch"
-              id="YoutubeSearch"
-              type="text"
-              placeholder="search for videos..."
-              onChange={this.handleVideoSearchTerms}
-            />
-          </form>
-          {
-            this.state.videosVisible
-              ? <Youtube
-                journeyId={this.state.journey.id}
-                savedVideos={this.state.savedVideos}
-                handleAddVideos={this.handleAddVideos}
-                videoSearchTerm={this.state.videoSearchTerm}
-              />
-              : null
-          }
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 video-search">
+            {/* <button className="btn-form" onClick={this.handleVideosVisible}>Choose more   videos</button> */}
+            <h2>Search for videos</h2>
+            <form onSubmit={this.handleVideoSearchTerms}>
+              <div className="row">
+                <div className="col-xs-10">
+                  <input
+                    name="YoutubeSearch"
+                    id="YoutubeSearch"
+                    type="text"
+                    placeholder="search for videos..."
+                    onChange={this.handleVideoSearchChange}
+                  />
+                </div>
+                <div className="col-xs-2">
+                  <button className="search-btn">SEARCH</button>
+                </div>
+              </div>
+            </form>
+            {
+              this.state.videosVisible
+                ? <Youtube
+                  journeyId={this.state.journey.id}
+                  savedVideos={this.state.savedVideos}
+                  handleAddVideos={this.handleAddVideos}
+                  videoSearchTerm={this.state.videoSearchTerm}
+                  journeyDuration={this.state.journey.duration}
+                />
+                : null
+            }
+            { this.state.loading && <div className="loading">Loading...</div>}
+          </div>
         </div>
       </div>
     );

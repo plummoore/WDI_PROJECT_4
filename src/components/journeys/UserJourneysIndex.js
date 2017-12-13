@@ -35,12 +35,12 @@ class UserJourneysIndex extends React.Component {
         </div>
         <div className="row">
           {this.state.journeys.map(journey =>
-            <div className="col-sm-6 col-md-4 col-lg-4" key={journey.id}>
-              <div className="tile grow" style = {{backgroundImage: `url(${journey.image})`}}>
-                <Link to={`/journeys/${journey.id}`}>
+            <div className="col-sm-6 col-md-3 col-lg-3" key={journey.id}>
+              <Link to={`/journeys/${journey.id}`}>
+                <div className="tile grow" style = {{backgroundImage: `url(${journey.image})`}}>
                   <h2 className="tile-info">{journey.name}</h2>
-                </Link>
-              </div>
+                </div>
+              </Link>
             </div>
           )}
         </div>
