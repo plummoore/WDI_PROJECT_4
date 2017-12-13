@@ -77,8 +77,7 @@ class JourneyEdit extends React.Component {
         {this.state && <BackButton />}
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1>{this.state.journey.name}</h1>
-
+            {this.state && <h1>{this.state.journey.name}</h1>}
             <GoogleMap
               start={this.state.journey.start}
               end={this.state.journey.end}
@@ -96,6 +95,10 @@ class JourneyEdit extends React.Component {
                 placeholder={this.state.journey.name}
                 onChange={this.handleNameChange}
               /></h3>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <h3>Journey Image:
               <input
                 name="journeyImage"
@@ -104,6 +107,10 @@ class JourneyEdit extends React.Component {
                 placeholder={`${this.state.journey.name} image`}
                 onChange={this.handleImageChange}
               /></h3>
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div className="edit-journey-img" style = {{backgroundImage: `url(${this.state.journey.image})`}}>
+            </div>
           </div>
         </div>
         <div className="row">

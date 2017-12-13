@@ -52,13 +52,8 @@ class JourneyNew extends React.Component {
       this.setState({ image: e.target.value });
   }
 
-  // handleVideosVisible = () => {
-  //   this.setState({ videosVisible: true });
-  // }
-
   handleSave = () => {
     console.log('ON SAVE', this.state);
-    // console.log('ON SAVE PAYLOAD', Auth.getPayload());
     const {userId} = Auth.getPayload();
     Axios
       .post(`/api/users/${userId}/journeys`, this.state, {
@@ -68,7 +63,6 @@ class JourneyNew extends React.Component {
         console.log(res.data.id);
         console.log('JOURNEY ID', this.state.id);
         this.props.history.push(`/journeys/${res.data.id}`);
-        // this.setState({videosVisible: true, journey: });
       })
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }

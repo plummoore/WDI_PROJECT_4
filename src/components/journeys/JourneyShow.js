@@ -23,7 +23,6 @@ class JourneyShow extends React.Component {
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
         this.setState({ journey: res.data.journey, savedVideos: res.data.savedVideos});
-        // console.log('SHOWPAGE STATE', this.state.journey, this.state.savedVideos);
       })
       .catch(err => console.log(err));
   }
@@ -50,7 +49,6 @@ class JourneyShow extends React.Component {
   }
 
   handleVideoArchive = (video) => {
-    console.log(video);
     Axios
       .put(`/api/videos/${video.id}`, {archived: true})
       .then(() => {
@@ -83,13 +81,16 @@ class JourneyShow extends React.Component {
 
   handleVideoSearchTerms = (e) => {
     e.preventDefault();
-    // console.log(this.state.videoSearchTerm);
     this.handleVideosVisible();
-    // console.log(this.state.videosVisible);
+  }
+
+
+  handleSearchTag = (videoTag) => {
+    this.handleVideosVisible();
+    this.setState({videoSearchTerm: videoTag});
   }
 
   render(){
-    // console.log('STATE JOURNEY ID------>',this.state.journey.id);
     return(
       <div>
         <BackButton />
@@ -112,8 +113,6 @@ class JourneyShow extends React.Component {
           </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <h4><strong>Distance:</strong> {this.state.journey.distance} km</h4>
-            {/* <h4>Saved Videos: {this.state.savedVideos.length} </h4> */}
-            {/* <h4>Videos: {`${savedVideos}`.length} </h4> */}
           </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4">
             <button className="icons" onClick={() => this.handleJourneyDelete(this.state.journey.id)}><i className="far fa-trash-alt"></i></button>
@@ -143,26 +142,51 @@ class JourneyShow extends React.Component {
             }
           </div>
         </div>
+        <div>
+          <h2>Search for videos</h2>
+          <div className="row">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 video-search">
+              <form onSubmit={this.handleVideoSearchTerms}>
+                <div className="row">
+                  <div className="col-xs-10">
+                    <input
+                      name="YoutubeSearch"
+                      id="YoutubeSearch"
+                      type="text"
+                      placeholder="search for videos..."
+                      onChange={this.handleVideoSearchChange}
+                    />
+                  </div>
+                  <div className="col-xs-2">
+                    <button className="search-btn">SEARCH</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <h2>Popluar tags</h2>
+          <div className="row">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 video-tag-row">
+              <button className="video-tag form-btn" onClick={() => this.handleSearchTag('science')}>
+                science
+              </button>
+              <button className="video-tag form-btn" onClick={() => this.handleSearchTag('education')}>
+                education
+              </button>
+              <button className="video-tag form-btn" onClick={() => this.handleSearchTag('comedy')}>
+                comedy
+              </button>
+              <button className="video-tag form-btn" onClick={() => this.handleSearchTag('technology')}>
+                tech
+              </button>
+              <button className="video-tag form-btn" onClick={() => this.handleSearchTag('ecology')}>
+                ecology
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 video-search">
-            {/* <button className="btn-form" onClick={this.handleVideosVisible}>Choose more   videos</button> */}
-            <h2>Search for videos</h2>
-            <form onSubmit={this.handleVideoSearchTerms}>
-              <div className="row">
-                <div className="col-xs-10">
-                  <input
-                    name="YoutubeSearch"
-                    id="YoutubeSearch"
-                    type="text"
-                    placeholder="search for videos..."
-                    onChange={this.handleVideoSearchChange}
-                  />
-                </div>
-                <div className="col-xs-2">
-                  <button className="search-btn">SEARCH</button>
-                </div>
-              </div>
-            </form>
+          <div className="col-lg-12 col-md-12">
             {
               this.state.videosVisible
                 ? <Youtube
