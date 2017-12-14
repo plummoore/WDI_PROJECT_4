@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 const userSchema = new mongoose.Schema({
   username: {type: String, required: true},
@@ -9,11 +10,24 @@ const userSchema = new mongoose.Schema({
   // journeys: [ {type: mongoose.Schema.ObjectId, ref: 'Journey'} ]
 });
 
-userSchema.virtual('savedVideos', {
+userSchema.virtual('videos', {
   ref: 'Video',
   localField: '_id',
   foreignField: 'createdBy'
 });
+
+userSchema.virtual('savedVideos')
+  .get(function() {
+    console.log(this.videos);
+    if (this.videos) return _.uniqBy(this.videos.filter(video => !video.archived), 'videoId');
+    return;
+  });
+
+userSchema.virtual('archivedVideos')
+  .get(function() {
+    if (this.videos) return _.uniqBy(this.videos.filter(video => video.archived), 'videoId');
+    return;
+  });
 
 userSchema.virtual('journeys', {
   ref: 'Journey',

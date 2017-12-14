@@ -6,7 +6,7 @@ import Auth from '../../lib/Auth';
 class Youtube extends React.Component {
   state = {
     youtubeSearchResults: [],
-    savedVideos: this.props.savedVideos,
+    videos: this.props.videos,
     allChosenVideos: [],
     videoSearchTerm: this.props.videoSearchTerm,
     numberOfResults: 50,
@@ -30,9 +30,8 @@ class Youtube extends React.Component {
     Axios
       .get(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCAuUUnT6oDeKwE6v1NGQxug&maxResults=${this.state.numberOfResults}&videoDuration=${this.state.videoDuration}&q=${this.state.videoSearchTerm}&type=video&videoEmbeddable=true&fields=items%2CpageInfo%2CprevPageToken&key=AIzaSyAb3g7hxT7yujlkyViY5Knkk6aTTpRGRhQ`)
       .then(res => {
-        const savedVideosIds = this.state.savedVideos.map(video => video.videoId);
-        const unduplicateVideos = res.data.items.filter(item => !savedVideosIds.includes(item.id.videoId));
-        console.log('total youtube results', res.data.items, 'youtube filtered results', unduplicateVideos, 'videos we already saved in db', savedVideosIds);
+        const videosIds = this.state.videos.map(video => video.videoId);
+        const unduplicateVideos = res.data.items.filter(item => !videosIds.includes(item.id.videoId));
 
         this.setState({youtubeSearchResults: unduplicateVideos}, () => {
 
@@ -56,22 +55,24 @@ class Youtube extends React.Component {
 
   handleSave = (videoId) => {
     const chosenVideo = { videoId, archived: false, journey: this.props.journeyId, duration: this.state.videoDuration };
-    const allChosenVideos = this.state.allChosenVideos.concat([chosenVideo]);
+    const allChosenVideos = this.state.videos.concat([chosenVideo]);
 
     const allChosenVideosIds = allChosenVideos.map(video => video.videoId);
     const youtubeSearchResults = this.state.youtubeSearchResults.filter(video => !allChosenVideosIds.includes(video.id.videoId));
 
-    console.log(allChosenVideos);
+    console.log('ALL OF THE CHOSEN VIDEOS', allChosenVideos);
 
     this.setState({allChosenVideos, youtubeSearchResults});
 
     Axios
       .post(`/api/journeys/${this.props.journeyId}`, chosenVideo, {
-        // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+        headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
       .then(res => {
-        const savedVideos = this.state.savedVideos.concat(res.data);
-        this.props.handleAddVideos(savedVideos);
+        console.log('whats the response', res.data);
+        const videos = this.props.videos.concat(res.data);
+        console.log('these are the videos we send back to journey', videos);
+        this.props.handleAddVideos(videos);
       })
       .catch(err => console.log(err));
   }
@@ -82,6 +83,7 @@ class Youtube extends React.Component {
   }
 
   render() {
+    console.log('THIS.PROPS.VIDEOS', this.props.videos);
     const showableVideos = this.state.youtubeSearchResults.slice(0, this.state.displayedVideos);
 
     let loadMore = false;

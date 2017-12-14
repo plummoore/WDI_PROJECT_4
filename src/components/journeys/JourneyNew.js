@@ -19,7 +19,7 @@ class JourneyNew extends React.Component {
     duration: '',
     regular: '',
     videosVisible: false,
-    savedVideos: []
+    videos: []
   }
 
   componentWillMount() {

@@ -19,7 +19,7 @@ class JourneyEdit extends React.Component {
       duration: '',
       regular: '',
       videosVisible: false,
-      savedVideos: []
+      videos: []
     }
   }
 

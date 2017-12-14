@@ -11,11 +11,17 @@ function usersIndex(req, res, next) {
 function usersShow(req, res, next) {
   User
     .findById(req.params.id)
-    .populate('savedVideos journeys.savedVideos journeys')
+    .populate('videos journeys.videos journeys')
     .exec()
     .then((user) => {
       if(!user) return res.notFound();
-      res.json(user);
+
+      // bit hacky... couldn't remove with .select in query chain
+      const json = user.toJSON();
+      delete json.videos;
+      // end of hack
+      
+      res.json(json);
     })
     .catch(next);
 }

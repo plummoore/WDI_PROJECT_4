@@ -19,9 +19,10 @@ class VideosIndex extends React.Component {
 
   componentDidMount(){
     Axios
-      .get(`/api/users/${this.props.match.params.id}/allvideos`)
+      .get(`/api/users/${this.props.match.params.id}`)
       .then(res => {
-        this.setState({ saved: res.data.savedVideos, archived: res.data.archivedVideos });
+
+        this.setState({ saved: res.data.savedVideos, archived: res.data.archivedVideos, shownVideos: res.data.savedVideos});
         console.log(res);
       })
       .catch(err => console.log(err));

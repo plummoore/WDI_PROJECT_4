@@ -20,7 +20,7 @@ const journeySchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 
-journeySchema.virtual('savedVideos', {
+journeySchema.virtual('videos', {
   ref: 'Video',
   localField: '_id',
   foreignField: 'journey'

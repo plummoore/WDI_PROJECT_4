@@ -5,6 +5,7 @@ const users = require('../controllers/users');
 const journeys = require('../controllers/journeys');
 const videos = require('../controllers/videos');
 const auth = require('../controllers/auth');
+const secureRoute = require('../lib/secureRoute');
 
 
 // USERS
@@ -26,7 +27,7 @@ router.route('/journeys/:journeyId')
   .get(journeys.show)
   .put(journeys.update)
   .delete(journeys.delete)
-  .post(videos.create);
+  .post(secureRoute, videos.create);
 
 
 //VIDEOS

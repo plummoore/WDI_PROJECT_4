@@ -12,12 +12,12 @@ function journeysCreate(req, res, next) {
 function journeysShow(req, res, next) {
   Journey
     .findById(req.params.journeyId)
-    .populate('savedVideos journeys.savedVideos journeys')
+    .populate('videos journeys.videos journeys')
     .exec()
     .then((journey) => {
       if(!journey) return res.notFound();
-      const savedVideos = journey.savedVideos.filter(savedVideo => !savedVideo.archived);
-      res.json({journey, savedVideos});
+      const videos = journey.videos.filter(savedVideo => !savedVideo.archived);
+      res.json({journey, videos});
     })
     .catch(next);
 }

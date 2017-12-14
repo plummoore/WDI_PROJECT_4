@@ -11,7 +11,7 @@ import Youtube from '../youtube/Youtube';
 class JourneyShow extends React.Component {
   state = {
     journey: {},
-    savedVideos: [],
+    videos: [],
     videosVisible: false,
     loading: false,
     videoSearchTerm: ''
@@ -22,7 +22,7 @@ class JourneyShow extends React.Component {
     Axios
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
-        this.setState({ journey: res.data.journey, savedVideos: res.data.savedVideos});
+        this.setState({ journey: res.data.journey, videos: res.data.videos});
       })
       .catch(err => console.log(err));
   }
@@ -71,8 +71,10 @@ class JourneyShow extends React.Component {
     }
   }
 
-  handleAddVideos = (savedVideos) => {
-    this.setState({ savedVideos });
+  handleAddVideos = (videos) => {
+    this.setState({ videos }, () => {
+      console.log('SETTING STATE IN JOURNEY SHOW', videos);
+    });
   }
 
   handleVideoSearchChange = ({ target: { value }}) => {
@@ -124,7 +126,7 @@ class JourneyShow extends React.Component {
         <div>
           <h2>Saved Videos</h2>
           <div className="row">
-            {this.state.savedVideos.map((video) => {
+            {this.state.videos.map((video) => {
               return (
                 <div key={video.videoId} className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   <iframe
@@ -191,7 +193,7 @@ class JourneyShow extends React.Component {
               this.state.videosVisible
                 ? <Youtube
                   journeyId={this.state.journey.id}
-                  savedVideos={this.state.savedVideos}
+                  videos={this.state.videos}
                   handleAddVideos={this.handleAddVideos}
                   videoSearchTerm={this.state.videoSearchTerm}
                   journeyDuration={this.state.journey.duration}
