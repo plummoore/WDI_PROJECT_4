@@ -10,6 +10,8 @@ const journeySchema = new mongoose.Schema({
     lat: Number,
     lng: Number
   },
+  startAddress: { type: String },
+  endAddress: { type: String },
   mode: {type: String},
   distance: Number,
   duration: Number,

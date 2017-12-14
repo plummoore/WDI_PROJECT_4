@@ -115,7 +115,7 @@ button.btn-form {
   padding: 5px;
   margin: 5px;
   border-radius: 5px;
-  background: #2175d9;
+  background: white;
   color: #00308f;
   position: relative;
 	box-sizing: border-box;
@@ -125,9 +125,10 @@ button.btn-form {
   }
   &:hover {
     text-decoration: none;
-    border: 2px solid #00308f;
-    background: rgba(0,0,0,0);
-    color: #2175d9;
+    // border: 2px solid #00308f;
+    // background: rgba(0,0,0,0);
+    background: #2175d9;
+    color: white;
     box-shadow: inset 0 0 0 3px #2175d9;
     text-decoration: none;
   }
@@ -176,6 +177,9 @@ button.btn-form {
   &:hover {
     color: white;
     background-color: #2175d9;
+  }
+  &:active {
+    color: red;
   }
 }
 
@@ -230,6 +234,10 @@ h3 {
 
 
 //HOMEPAGE
+
+.home {
+  // background: #00308f;
+}
 
 iframe {
   border: none;

@@ -55,7 +55,7 @@ class Youtube extends React.Component {
   }
 
   handleSave = (videoId) => {
-    const chosenVideo = { videoId, archived: false, journey: this.props.journeyId };
+    const chosenVideo = { videoId, archived: false, journey: this.props.journeyId, duration: this.state.videoDuration };
     const allChosenVideos = this.state.allChosenVideos.concat([chosenVideo]);
 
     const allChosenVideosIds = allChosenVideos.map(video => video.videoId);
@@ -67,8 +67,8 @@ class Youtube extends React.Component {
       .post(`/api/journeys/${this.props.journeyId}`, chosenVideo, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
-      .then(() => {
-        const savedVideos = this.state.savedVideos.concat(allChosenVideos);
+      .then(res => {
+        const savedVideos = this.state.savedVideos.concat(res.data);
         this.props.handleAddVideos(savedVideos);
       })
       .catch(err => console.log(err));
@@ -93,7 +93,7 @@ class Youtube extends React.Component {
               <iframe
                 width="100%"
                 height="315"
-                src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                src={`https://www.youtube.com/embed/${video.id.videoId}?modestbranding=1`}
                 frameBorder="0"
                 allowFullScreen>
               </iframe>

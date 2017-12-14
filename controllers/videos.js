@@ -14,7 +14,11 @@ function videosIndex(req, res, next) {
   Video
     .find({createdBy: req.params.id})
     .exec()
-    .then(videos => res.status(200).json(videos))
+    .then(videos => {
+      const savedVideos = videos.filter(video => !video.archived);
+      const archivedVideos = videos.filter(video => video.archived);
+      res.status(200).json({savedVideos, archivedVideos});
+    })
     .catch(next);
 }
 

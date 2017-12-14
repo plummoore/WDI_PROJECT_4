@@ -9,7 +9,7 @@ class Giphy extends React.Component {
 
 
   componentDidMount() {
-    axios.get('https://api.giphy.com/v1/gifs/search?api_key=aymi41oOEgJ1V44T5KBXPgyeqAe7074O&q=travel&limit=12&offset=12&rating=G&lang=en')
+    axios.get('https://api.giphy.com/v1/gifs/search?api_key=aymi41oOEgJ1V44T5KBXPgyeqAe7074O&q=travel&limit=16&offset=12&rating=G&lang=en')
       .then(res => {
         this.setState({ gif: res.data.data });
       })

@@ -10,7 +10,17 @@ import JourneyNew from './JourneyNew';
 
 class JourneyEdit extends React.Component {
   state = {
-    journey: {}
+    journey: {
+      name: '',
+      start: {},
+      end: {},
+      mode: '',
+      distance: '',
+      duration: '',
+      regular: '',
+      videosVisible: false,
+      savedVideos: []
+    }
   }
 
   componentWillMount() {
@@ -21,20 +31,19 @@ class JourneyEdit extends React.Component {
     Axios
       .get(`/api/journeys/${this.props.match.params.id}`)
       .then(res => {
-        console.log('RES DATA--->', res.data);
-        this.setState({ journey: res.data });
+        this.setState({ journey: res.data.journey });
       })
       .catch(err => console.log(err));
   }
 
   handleLocationChange = (location, inputName) => {
-    this.setState({ [inputName]: location });
-    console.log('HANDLE LOCATION CHANGE--->', this.state);
+    const journey = Object.assign({}, this.state.journey, { [inputName]: location });
+    this.setState({ journey });
   }
 
   handleModeChange = (value) => {
-    this.setState({ mode: value });
-    console.log('HANDLE MODE CHANGE--->', this.state);
+    const journey = Object.assign({}, this.state.journey, { mode: value });
+    this.setState({ journey });
   }
 
   //GOOGLE MAPS TO UPDATE HERE TO DRAW NEW ROUTE ON MAP...
@@ -44,26 +53,29 @@ class JourneyEdit extends React.Component {
 
 
   handleRouteData = (duration, distance) => {
-    this.setState({ duration: duration, distance: distance });
+    const journey = Object.assign({}, this.state.journey, { duration: duration, distance: distance });
+    this.setState({ journey });
   }
 
   handleNameChange = (e) => {
-    const journeyData = e.target.value;
-    if(journeyData)
-      this.setState({ regular: true, name: e.target.value,  videosVisible: true });
-    // console.log('HANDLE NAME CHANGE--->', this.state);
+    // const journeyData = e.target.value;
+    // if(journeyData)
+    //   this.setState({ regular: true, name: e.target.value,  videosVisible: true });
+
+
+    const journey = Object.assign({}, this.state.journey, { name: e.target.value });
+    this.setState({ journey });
   }
 
   handleImageChange = (e) => {
-    const journeyData = e.target.value;
-    if(journeyData)
-      this.setState({ image: e.target.value });
+    const journey = Object.assign({}, this.state.journey, { image: e.target.value });
+    this.setState({ journey });
   }
 
   handleSave = () => {
     console.log('ON SAVE', this.state);
     Axios
-      .put(`/api/journeys/${this.props.match.params.id}`, this.state, {
+      .put(`/api/journeys/${this.props.match.params.id}`, this.state.journey, {
         // headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
       })
       .then(() => this.props.history.push('/'))
@@ -71,7 +83,8 @@ class JourneyEdit extends React.Component {
   }
 
   render() {
-    console.log('IN RENDER', this.state.journey);
+    if (!this.state.journey) return null;
+
     return(
       <div>
         {this.state && <BackButton />}
@@ -79,6 +92,7 @@ class JourneyEdit extends React.Component {
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             {this.state && <h1>{this.state.journey.name}</h1>}
             <GoogleMap
+              handleRouteData={this.handleRouteData}
               start={this.state.journey.start}
               end={this.state.journey.end}
               mode={this.state.journey.mode}
@@ -92,7 +106,7 @@ class JourneyEdit extends React.Component {
                 name="journeyName"
                 id="journeyName"
                 type="text"
-                placeholder={this.state.journey.name}
+                value={this.state.journey.name}
                 onChange={this.handleNameChange}
               /></h3>
           </div>
@@ -104,7 +118,7 @@ class JourneyEdit extends React.Component {
                 name="journeyImage"
                 id="journeyImage"
                 type="text"
-                placeholder={`${this.state.journey.name} image`}
+                value={`${this.state.journey.image}`}
                 onChange={this.handleImageChange}
               /></h3>
           </div>

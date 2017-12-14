@@ -13,8 +13,27 @@ class GoogleMap extends React.Component {
     if(nextProps.mode !== this.props.mode) this.routeHasBeenDrawn = false;
   }
 
-  componentDidUpdate() {
-    if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) this.drawRoute(this.props.mode);
+  componentDidUpdate(prevProps) {
+    if (Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) {
+      return this.drawRoute(this.props.mode);
+    }
+
+    if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.start !== prevProps.start || this.props.end !== prevProps.end && this.props.mode) {
+      return this.drawRoute(this.props.mode);
+    }
+
+
+    // // redraw route
+    // if (Object.keys(prevProps.start).length !== 0 && Object.keys(prevProps.end).length !== 0) {
+    //   if(this.props.start !== prevProps.start || this.props.end !== prevProps.end) {
+    //     this.drawRoute(this.props.mode);
+    //   }
+    // } else {
+    //   if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) this.drawRoute(this.props.mode);
+    // }
+    //
+    // // draw initial route
+    // if(Object.keys(this.props.start).length !== 0 && Object.keys(this.props.end).length !== 0 && this.props.mode && !this.routeHasBeenDrawn) this.drawRoute(this.props.mode);
   }
 
   componentDidMount() {
@@ -35,6 +54,9 @@ class GoogleMap extends React.Component {
   }
 
   drawRoute(mode) {
+    this.directionsDisplay.setMap(null);
+
+
     const request = {
       origin: this.props.start,
       destination: this.props.end,
@@ -60,6 +82,10 @@ class GoogleMap extends React.Component {
         this.directionsDisplay.setDirections(response);
         this.directionsDisplay.setMap(this.map);
         this.directionsDisplay.setOptions( { suppressMarkers: true } );
+
+
+        console.log(duration, distance);
+
         if(this.props.handleRouteData) this.props.handleRouteData(duration, distance);
       }
     });

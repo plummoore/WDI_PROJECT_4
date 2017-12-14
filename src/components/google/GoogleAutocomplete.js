@@ -9,9 +9,17 @@ class GoogleAutocomplete extends React.Component {
     this.autocomplete.addListener('place_changed', () => {
       // console.log('autocomplete', this.autocomplete.getPlace());
       const place = this.autocomplete.getPlace();
+
+      // console.log(place);
+
+      const address = place.adr_address.replace(/<\/?[^>]+(>|$)/g, '');
       const location = place.geometry.location.toJSON();
 
-      this.props.handleChange(location, this.props.name);
+      console.log(address);
+      console.log(location);
+      // const address = this.autocomplete.formatted_address
+
+      this.props.handleChange(location, address, this.props.name);
     });
   }
 
