@@ -3,7 +3,7 @@ import React from 'react';
 
 import GoogleAutocomplete from './GoogleAutocomplete';
 
-const GoogleSearchBar = ({ address, handleLocationChange }) => {
+const GoogleSearchBar = ({ handleLocationChange }) => {
   return(
     <div className="row form-bottom">
       <div className="col-lg-6 col-md-6 col-sm-6">
@@ -14,7 +14,6 @@ const GoogleSearchBar = ({ address, handleLocationChange }) => {
             placeholder="start point"
             handleChange={handleLocationChange}
             className="form-control"
-            address={address}
           />
         </div>
       </div>
@@ -26,7 +25,6 @@ const GoogleSearchBar = ({ address, handleLocationChange }) => {
             placeholder="end point"
             handleChange={handleLocationChange}
             className="form-control"
-            address={address}
           />
         </div>
       </div>

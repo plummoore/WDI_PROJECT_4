@@ -84,8 +84,8 @@ class JourneyEdit extends React.Component {
 
   render() {
     if (!this.state.journey) return null;
-
     return(
+
       <div>
         {this.state && <BackButton />}
         <div className="row">
