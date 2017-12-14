@@ -1,5 +1,7 @@
 const Video = require('../models/video');
 
+
+
 function videosCreate(req, res, next) {
   req.body.createdBy = req.params.id;
   req.body.journey = req.params.journeyId;
@@ -15,11 +17,40 @@ function videosIndex(req, res, next) {
     .find({createdBy: req.params.id})
     .exec()
     .then(videos => {
+      console.log(videos);
+
+
+
       const savedVideos = videos.filter(video => !video.archived);
+      const savedUndupd = removeDuplicates(savedVideos);
+      console.log(savedVideos.length, savedUndupd.length);
       const archivedVideos = videos.filter(video => video.archived);
-      res.status(200).json({savedVideos, archivedVideos});
+      const archivedVideosUndupd = removeDuplicates(archivedVideos);
+      console.log(archivedVideos.length, archivedVideosUndupd.length);
+
+      res.status(200).json({savedVideos: savedUndupd, archivedVideos: archivedVideosUndupd});
     })
     .catch(next);
+}
+
+function removeDuplicates(videos) {
+  const videoIds = videos.map(video => video.videoId);
+  const undupdIds = [];
+  const undupdVideos = [];
+
+  for (var i = 0; i < videoIds.length; i++) {
+    const video = videoIds[i];
+    if (!undupdIds.includes(video)) {
+      undupdIds.push(video);
+    }
+  }
+
+  for (var j = 0; j < undupdIds.length; j++) {
+    const video = videos.find(video => video.videoId === undupdIds[j]);
+    undupdVideos.push(video);
+  }
+
+  return undupdVideos;
 }
 
 function videosUpdate(req, res, next) {

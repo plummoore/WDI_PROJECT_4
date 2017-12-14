@@ -32,7 +32,7 @@ class Youtube extends React.Component {
       .then(res => {
         const savedVideosIds = this.state.savedVideos.map(video => video.videoId);
         const unduplicateVideos = res.data.items.filter(item => !savedVideosIds.includes(item.id.videoId));
-        // console.log('total youtube results', res.data.items, 'youtube filtered results', unduplicateVideos, 'videos we already saved in db', savedVideosIds);
+        console.log('total youtube results', res.data.items, 'youtube filtered results', unduplicateVideos, 'videos we already saved in db', savedVideosIds);
 
         this.setState({youtubeSearchResults: unduplicateVideos}, () => {
 
@@ -60,6 +60,8 @@ class Youtube extends React.Component {
 
     const allChosenVideosIds = allChosenVideos.map(video => video.videoId);
     const youtubeSearchResults = this.state.youtubeSearchResults.filter(video => !allChosenVideosIds.includes(video.id.videoId));
+
+    console.log(allChosenVideos);
 
     this.setState({allChosenVideos, youtubeSearchResults});
 
@@ -93,7 +95,7 @@ class Youtube extends React.Component {
               <iframe
                 width="100%"
                 height="315"
-                src={`https://www.youtube.com/embed/${video.id.videoId}?modestbranding=1`}
+                src={`https://www.youtube.com/embed/${video.id.videoId}`}
                 frameBorder="0"
                 allowFullScreen>
               </iframe>

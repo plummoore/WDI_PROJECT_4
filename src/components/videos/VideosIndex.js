@@ -33,7 +33,7 @@ class VideosIndex extends React.Component {
   }
 
   handleSort = (e) => {
-    console.log(e);
+    console.log('hitting', e);
     const [sortBy, sortDirection] = e.target.value.split('|');
     console.log(sortBy, sortDirection);
     this.setState({ sortBy, sortDirection});
@@ -41,22 +41,18 @@ class VideosIndex extends React.Component {
   }
 
   render(){
+    const {sortBy, sortDirection} = this.state;
+    const orderedVideos = _.orderBy(this.state.shownVideos, [sortBy], [sortDirection]);
     return(
       <div>
         <div className="row">
-          {/* <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
           <SearchBar
-            handleFilter={this.handleSort}
+            handleSort={this.handleSort}
             handleToggleShow={this.handleToggleShow}
           />
-          {/* </div> */}
-          {/* <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <button className="btn-form" onClick={() => this.toggleShow('saved')}>Saved</button>
-            <button className="btn-form" onClick={() => this.toggleShow('archived')}>Archived</button>
-          </div> */}
         </div>
         <div className="row">
-          {this.state.shownVideos.map((video) => {
+          {orderedVideos.map((video) => {
             return (
               <div key={video.id} className="col-lg-6 col-md-6 col-sm-6">
                 <iframe
