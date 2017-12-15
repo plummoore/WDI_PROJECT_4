@@ -46,11 +46,6 @@ class JourneyEdit extends React.Component {
     this.setState({ journey });
   }
 
-  //GOOGLE MAPS TO UPDATE HERE TO DRAW NEW ROUTE ON MAP...
-  // start={this.state.journey.start}
-  // end={this.state.journey.end}
-  // mode={this.state.journey.mode}
-
 
   handleRouteData = (duration, distance) => {
     const journey = Object.assign({}, this.state.journey, { duration: duration, distance: distance });
@@ -90,6 +85,34 @@ class JourneyEdit extends React.Component {
         {this.state && <BackButton />}
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <GoogleSearchBar
+              handleLocationChange={this.handleLocationChange}
+            />
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h4>Mode of travel:</h4>
+            <button className="travel-mode" onClick={() => this.handleModeChange('TRANSIT')}>
+              <i className="fas fa-subway fa-2x"></i>
+            </button>
+            <button className="travel-mode" onClick={() => this.handleModeChange('DRIVING')}>
+              <i className="fas fa-car fa-2x"></i>
+            </button>
+            <button className="travel-mode" onClick={() => this.handleModeChange('BICYCLING')}>
+              <i className="fas fa-bicycle fa-2x"></i>
+            </button>
+            <button className="travel-mode" onClick={() => this.handleModeChange('WALKING')}>
+              <i className="fas fa-child fa-2x"></i>
+            </button>
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h3><strong>Duration:</strong> {this.state.journey.duration} mins</h3>
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h3><strong>Distance:</strong> {this.state.journey.distance} km</h3>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             {this.state && <h1>{this.state.journey.name}</h1>}
             <GoogleMap
               handleRouteData={this.handleRouteData}
@@ -111,7 +134,11 @@ class JourneyEdit extends React.Component {
               /></h3>
           </div>
         </div>
-        <div className="row">
+        <div className="row route-data">
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div className="edit-journey-img" height="250px" width="250px" style = {{backgroundImage: `url(${this.state.journey.image})`}}>
+            </div>
+          </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <h3>Journey Image:
               <input
@@ -122,42 +149,7 @@ class JourneyEdit extends React.Component {
                 onChange={this.handleImageChange}
               /></h3>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="edit-journey-img" style = {{backgroundImage: `url(${this.state.journey.image})`}}>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <GoogleSearchBar
-              handleLocationChange={this.handleLocationChange}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <h3>Duration: {this.state.journey.duration} mins</h3>
-          </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <h3>Distance: {this.state.journey.distance} km</h3>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4>Mode of travel</h4>
-            <button className="travel-mode" onClick={() => this.handleModeChange('TRANSIT')}>
-              <i className="fas fa-subway fa-2x"></i>
-            </button>
-            <button className="travel-mode" onClick={() => this.handleModeChange('DRIVING')}>
-              <i className="fas fa-car fa-2x"></i>
-            </button>
-            <button className="travel-mode" onClick={() => this.handleModeChange('BICYCLING')}>
-              <i className="fas fa-bicycle fa-2x"></i>
-            </button>
-            <button className="travel-mode" onClick={() => this.handleModeChange('WALKING')}>
-              <i className="fas fa-child fa-2x"></i>
-            </button>
-          </div>
+
         </div>
         <button className="btn-form save-journey" onClick={this.handleSave}>Save Journey</button>
       </div>

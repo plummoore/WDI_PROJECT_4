@@ -93,6 +93,42 @@ mongoose.connect(dbURI, {useMongoClient: true})
         regular: true,
         image: 'https://s5.favim.com/orig/54/beautiful-bridge-building-lights-Favim.com-528260.jpg',
         createdBy: users[0]
+      }, {
+        name: 'Wales Drive',
+        start: {
+          lat: 51.5333607,
+          lng: -0.10331369999994422
+        },
+        end: {
+          lat: 51.8576,
+          lng: -4.3121
+        },
+        startAddress: 'Duncan Terrace, London N1 8AG, UK',
+        endAddress: 'Carmathen, SA44 5EG',
+        duration: 263,
+        distance: 351.73,
+        mode: 'DRIVING',
+        regular: true,
+        image: 'http://www.autocarhire.com/travelblog/wp-content/uploads/2011/11/Blue-Mountains-1024x768.jpg',
+        createdBy: users[0]
+      }, {
+        name: 'The zoo!',
+        start: {
+          lat: 51.5333607,
+          lng: -0.10331369999994422
+        },
+        end: {
+          lat: 51.5085,
+          lng: -.1255
+        },
+        startAddress: 'Duncan Terrace, London N1 8AG, UK',
+        endAddress: 'London Zoo, London',
+        duration: 57,
+        distance: 4.56,
+        mode: 'WALKING',
+        regular: true,
+        image: 'http://www.rantlifestyle.com/wp-content/uploads/2014/07/011.jpg',
+        createdBy: users[0]
       }])
       .then(journeys => {
         console.log(`${journeys.length} journeys created`);

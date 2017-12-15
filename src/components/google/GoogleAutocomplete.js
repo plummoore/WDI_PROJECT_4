@@ -12,7 +12,7 @@ class GoogleAutocomplete extends React.Component {
 
       // console.log(place);
 
-      const address = place.adr_address.replace(/<\/?[^>]+(>|$)/g, '');
+      // const address = place.adr_address.replace(/<\/?[^>]+(>|$)/g, '');
       const location = place.geometry.location.toJSON();
 
       // console.log(address);

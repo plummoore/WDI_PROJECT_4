@@ -28,8 +28,8 @@ class JourneyNew extends React.Component {
 
   componentDidMount(){}
 
-  handleLocationChange = (location, address, inputName) => {
-    this.setState({ [inputName]: location, address: address });
+  handleLocationChange = (location, inputName) => {
+    this.setState({ [inputName]: location });
     console.log(this.state);
   }
 

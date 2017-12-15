@@ -53,21 +53,23 @@ class VideosIndex extends React.Component {
           />
         </div>
         <div className="row">
-          {orderedVideos.map((video) => {
-            return (
-              <div key={video.id} className="col-lg-6 col-md-6 col-sm-6">
-                <iframe
-                  width="100%"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${video.videoId}?modestbranding=1`}
-                  frameBorder="0"
-                  allowFullScreen>
-                </iframe>
-              </div>
-            );
-          })
-          }
-        </div>
+          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}
+            {orderedVideos.map((video) => {
+              return (
+                <div key={video.id} className="col-lg-6 col-md-6 col-sm-6">
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${video.videoId}?modestbranding=1`}
+                    frameBorder="0"
+                    allowFullScreen>
+                  </iframe>
+                </div>
+              );
+            })
+            }
+          </div>
+        {/* </div> */}
       </div>
     );
   }

@@ -30,6 +30,7 @@ class Youtube extends React.Component {
     Axios
       .get(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCAuUUnT6oDeKwE6v1NGQxug&maxResults=${this.state.numberOfResults}&videoDuration=${this.state.videoDuration}&q=${this.state.videoSearchTerm}&type=video&videoEmbeddable=true&fields=items%2CpageInfo%2CprevPageToken&key=AIzaSyAb3g7hxT7yujlkyViY5Knkk6aTTpRGRhQ`)
       .then(res => {
+        console.log(this.state.videoSearchTerm);
         const videosIds = this.state.videos.map(video => video.videoId);
         const unduplicateVideos = res.data.items.filter(item => !videosIds.includes(item.id.videoId));
 
